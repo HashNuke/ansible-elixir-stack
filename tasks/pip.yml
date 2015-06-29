@@ -1,0 +1,7 @@
+---
+- name: "download pip installer script"
+  get_url: url="https://bootstrap.pypa.io/get-pip.py" dest="/tmp/get-pip.py" mode=0777
+
+
+- name: "install pip"
+  command: "python /tmp/get-pip.py"

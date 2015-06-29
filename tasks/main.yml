@@ -1,0 +1,13 @@
+tasks:
+  # IF setup
+  - include: common.yml
+  - include: pip.yml
+  - include: deployer-user.yml
+  - include: asdf.yml
+  - include: postgres.yml
+
+  # IF deploy
+  - include: project.yml
+  - include: frontend.yml
+  - include: backend.yml
+  - include: deploy-project.yml

@@ -1,0 +1,13 @@
+---
+- name: "install frontend dependencies"
+  command: 'bash -lc "npm install --production"'
+  remote_user: "{{deployer}}"
+  args:
+    chdir: "{{frontend_path}}"
+
+
+- name: "build frontend"
+  command: 'bash -lc "npm run build -prod"'
+  remote_user: "{{deployer}}"
+  args:
+    chdir: "{{frontend_path}}"

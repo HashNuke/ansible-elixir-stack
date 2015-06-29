@@ -1,0 +1,20 @@
+---
+- name: "add postgres repository"
+  apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+
+
+- name: "add postgres repository key"
+  apt_key: url="https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+
+
+- name: "install postgres"
+  apt: name=postgresql-9.4
+
+
+- name: install psycopg2 python module
+  pip: name=psycopg2
+
+
+- name: "create database"
+  postgresql_db: name="{{database_name}}" encoding='UTF-8'
+  remote_user: "{{deployer}}"
