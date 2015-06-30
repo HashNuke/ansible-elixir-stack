@@ -8,6 +8,7 @@ An Ansible role to setup a server with Elixir & Postgres to deploy apps to it.
 
 * **1-command setup & deploys**
 * Deploy multiple hobby apps on a $5 DigitalOcean server
+* Supports [Phoenix framework](http://phoenixframework.org) out of the box
 * Monitoring using `monit`
 * Automatic restarts if app crashes
 * Log rotation
@@ -69,6 +70,7 @@ frontend_build (default True)
 frontend_dir
 frontend_build_command
 deployer (default deployer)
+elixir_framework (automatically detected)
 create_swap (default True)
 swap_space (default 2gb)
 npm_jobs_config (default 1)
