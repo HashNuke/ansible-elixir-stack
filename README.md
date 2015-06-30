@@ -2,8 +2,6 @@
 
 An Ansible role to setup a server with Elixir & Postgres to deploy apps.
 
-> This uses [asdf](https://github.com/HashNuke/asdf), so ensure your project has a `.tool-versions` file with Erlang, Elixir and Node.js versions.
-
 ## Features
 
 * **1-command setup & deploys**
@@ -34,15 +32,13 @@ $ ansible-galaxy install HashNuke.elixir-stack
 
 ## Setup (once for every project)
 
-##### 1.) In your project's directory, run this:
+In your project's directory, run following command:
 
 ```shell
 $ curl http://git.io/elixir-stack.sh | bash
 ```
 
-You'll find a newly created `deployment` dir.
-
-##### 2.) Edit git repo for project in `project_repo` variable in `deployment/vars/main.yml`
+Follow instructions it outputs.
 
 ## Deploying your project
 
@@ -75,6 +71,7 @@ create_swap (default True)
 swap_space (default 2gb)
 npm_jobs_config (default 1)
 monitoring_emails
+setup_postgres (default: True)
 
 ## FAQ
 
