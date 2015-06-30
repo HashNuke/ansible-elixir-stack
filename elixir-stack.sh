@@ -39,5 +39,15 @@ cat <<EOF
 project_repo: "https://github.com/foo/bar.git"
 EOF > deployment/vars/main.yml
 
+
+if [ -z ./.tool-versions ]; then
+  cat <<EOF
+erlang 18.0
+elixir 1.0.4
+nodejs 0.12.5
+EOF
+  echo "TODO Edit .tool-versions file with appropriate versions of Erlang, Elixir & Node.js required for project"
+fi
+
 echo "TODO Delete IP addresses from deployment/inventory and add your own"
 echo "TODO Edit project git url in deployment/vars/main.yml"
