@@ -1,0 +1,6 @@
+---
+- hosts: app-servers
+  remote_user: root
+
+  roles:
+    - {role: "elixir-stack", action: "setup"}
