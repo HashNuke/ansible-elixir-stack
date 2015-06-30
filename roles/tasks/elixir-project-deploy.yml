@@ -1,0 +1,32 @@
+---
+- name: "clone project"
+  git: repo="{{project_repo}}" version="{{project_version}}" dest="{{project_path}}"
+  remote_user: "{{deployer}}"
+
+
+- name: "fetch mix dependencies"
+  command: 'bash -lc "mix deps.get"'
+  remote_user: "{{deployer}}"
+  args:
+    chdir: "{{project_path}}"
+
+
+- name: "fetch npm dependencies"
+  command: 'bash -lc "npm install --production"'
+  remote_user: "{{deployer}}"
+  args:
+    chdir: "{{project_path}}"
+
+
+- name: "build frontend assets"
+  command: 'bash -lc "npm run build --prod"'
+  remote_user: "{{deployer}}"
+  args:
+    chdir: "{{project_path}}/{{frontend_dir}}"
+
+
+- name: "build phoenix digested assets"
+  command: 'bash -lc "mix phoenix.digest"'
+  remote_user: "{{deployer}}"
+  args:
+    chdir: "{{project_path}}"
