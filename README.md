@@ -1,6 +1,6 @@
 # ansible-elixir-stack
 
-An Ansible role to setup a server with Elixir & Postgres to deploy apps to it.
+An Ansible role to setup a server with Elixir & Postgres to deploy apps.
 
 > This uses [asdf](https://github.com/HashNuke/asdf), so ensure your project has a `.tool-versions` file with Erlang, Elixir and Node.js versions.
 
@@ -46,14 +46,14 @@ You'll find a newly created `deployment` dir.
 
 ## Deploying your project
 
-##### For first time server setup & deployment
+##### To deploy the first time
 
 ```sh-session
 $ cd deployment
 $ ansible-playbook setup.yml
 ```
 
-##### For updating your apps
+##### To updating your project
 
 ```shell
 $ cd deployment
