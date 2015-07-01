@@ -1,50 +1,53 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 current_directory=$(basename pwd)
 git_repo_url=$(git config --get remote.origin.url)
 mkdir -p deployment/vars
 
-cat <<EOF
+cat > deployment/setup.yml <<EOF
 ---
 hosts: app-servers
 
 roles:
   - {role: "elixir-stack", action: "setup"}
-EOF > deployment/setup.yml
+EOF
 
 
-cat <<EOF
+cat > deployment/deploy.yml <<EOF
 ---
 hosts: app-servers
 
 roles:
   - {role: "elixir-stack", action: "deploy"}
-EOF > deployment/deploy.yml
+EOF
 
 
-cat <<EOF
+cat > deployment/inventory <<EOF
 [app-servers]
 1.2.3.4
 4.5.6.7
 
 # Delete the above IP addresses and add your server's IP addresses
-EOF > deployment/inventory
+EOF
 
 
-cat <<EOF
+cat > deployment/ansible.cfg <<EOF
 [defaults]
 inventory=inventory
-EOF > deployment/ansible.cfg
+EOF
 
-cat <<EOF
+cat > deployment/vars/main.yml <<EOF
 ---
 project_name: $current_directory
 project_repo: "$git_repo_url"
-EOF > deployment/vars/main.yml
+EOF
 
-
+echo '*-*-*'
+echo 'Oolaa ~! your project has been setup for deployment'
+echo '*-*-*'
+echo
 if [ -z ./.tool-versions ]; then
-  cat <<EOF
+  cat > .tool-versions <<EOF
 erlang 18.0
 elixir 1.0.5
 nodejs 0.12.5
