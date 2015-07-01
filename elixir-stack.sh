@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-current_directory=$(basename pwd)
+current_directory=$(basename `pwd`)
 git_repo_url=$(git config --get remote.origin.url)
 mkdir -p deployment/vars
 
