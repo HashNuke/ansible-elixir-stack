@@ -6,7 +6,7 @@ tasks:
     stat: path="/swap"
     register: swap_info
 
-  - when: "create_swap_file == True && swap_info.stat.exists == False"
+  - when: "create_swap_file == True and swap_info.stat.exists == False"
     include: "create-swap-file.yml"
 
 
