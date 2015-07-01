@@ -1,13 +1,24 @@
 tasks:
-  # IF setup
   - include: common.yml
+
+
+  - name: "check for swap file path"
+    stat: path="/swap"
+    register: swap_info
+
+  - include: "create-swap-file.yml"
+    when: "create_swap_file == True && swap_info.stat.exists == False"
+
+
   - include: pip.yml
   - include: deployer-user.yml
   - include: asdf.yml
-  - include: postgres.yml
 
-  # IF deploy
-  - include: project.yml
+
+  - include: postgres.yml
+    when: "setup_postgres == True"
+
+  - include: elixir-project.yml
+
   - include: frontend.yml
-  - include: backend.yml
-  - include: deploy-project.yml
+    when: "build_frontend == True"

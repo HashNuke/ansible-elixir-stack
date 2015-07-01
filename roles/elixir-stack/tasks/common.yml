@@ -2,10 +2,10 @@
 - name: "install system packages"
   apt: name="{{ item }}" update_cache=yes
   with_items:
-    - git
-    - unzip
     - curl
     - wget
+    - unzip
+    - git
     - python-apt
     - automake
     - autoconf

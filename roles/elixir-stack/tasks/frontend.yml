@@ -1,0 +1,22 @@
+---
+- name: "fetch npm dependencies"
+  command: 'bash -lc "npm install --production"'
+  remote_user: "{{ deployer }}"
+  args:
+    chdir: "{{ project_path }}/{{ frontend_dir }}"
+
+
+- name: "build frontend assets"
+  command: 'bash -lc "{{ frontend_build_command }}"'
+  remote_user: "{{ deployer }}"
+  args:
+    chdir: "{{ project_path }}/{{ frontend_dir }}"
+
+
+- name: "post-frontend-build command"
+  command: 'bash -lc "{{ post_frontend_build }}"'
+  when: "post_frontend_build != False"
+  remote_user: "{{ deployer }}"
+  args:
+    chdir: "{{ project_path }}"
+    environment: "MIX_ENV={{ mix_env }}"

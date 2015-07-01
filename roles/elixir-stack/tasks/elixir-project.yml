@@ -1,0 +1,12 @@
+---
+- name: "clone project"
+  git: repo="{{project_repo}}" version="{{project_version}}" dest="{{project_path}}"
+  remote_user: "{{deployer}}"
+
+
+- name: "fetch mix dependencies"
+  command: 'bash -lc "mix deps.get"'
+  remote_user: "{{deployer}}"
+  args:
+    chdir: "{{project_path}}"
+    environment: "MIX_ENV={{mix_env}}"

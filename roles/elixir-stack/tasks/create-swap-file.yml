@@ -1,0 +1,21 @@
+---
+- name: create file
+  file: path=/swap state=touch mode=0600
+
+- name: write blocks
+  command: "dd if=/dev/zero of=/swapfile bs=1024 count={{ swap_size }}"
+
+- name: setup swap area in /swap
+  command: "mkswap /swap"
+
+- name: swapon
+  command: "swapon /swap"
+
+- name: append swap info to fstab
+  lineinfile: dest=/etc/fstab line="/swap    none    swap    sw    0    0"
+
+- name: set swappiness in /proc/sys/vm/swappiness
+  command: bash -lc "echo 10 | sudo tee /proc/sys/vm/swappiness"
+
+- name: set swappiness in /etc/sysctl.conf
+  command: bash -lc "echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf"
