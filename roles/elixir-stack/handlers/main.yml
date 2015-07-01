@@ -1,2 +1,12 @@
 ---
-# handlers file for elixir-stack
+- name: restart nginx
+  monit: name=nginx state=restarted
+
+- name: reload nginx
+  monit: name=nginx state=reloaded
+
+- name: reload monit
+  service: name=monit state=reloaded
+
+- name: restart monit
+  service: name=monit state=restarted

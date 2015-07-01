@@ -7,7 +7,7 @@ tasks:
     register: swap_info
 
   - when: "create_swap_file == True and swap_info.stat.exists == False"
-    include: "create-swap-file.yml"
+    include: create-swap-file.yml
 
 
   - include: pip.yml
@@ -24,3 +24,5 @@ tasks:
 
   - when: "build_frontend == True"
     include: frontend.yml
+
+  - include: monit.yml

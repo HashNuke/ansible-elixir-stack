@@ -1,0 +1,28 @@
+---
+- name: install monit
+  apt: name=monit update_cache=yes
+
+
+- name: allow localhost access in monit config
+  lineinfile: dest=/etc/monit/monitrc line="{{ item }}"
+  with_items:
+    - "set httpd port 2812 and"
+    - "use address localhost"
+    - "allow localhost"
+
+
+- name: start monit now & mark to be started on system reboot
+  service: name=monit started=yes enabled=yes
+  notify:
+    - restart monit
+
+
+- name: add monit config for elixir app
+  #TODO monit dest
+  template: src="app.monit.j2" dest="{{ project_name }}.monit"
+  notify:
+    - reload monit
+
+
+- name: start app daemon using monit
+  monit: name="{{ project_name }}" state=started
