@@ -1,6 +1,9 @@
 ---
 project_version: "master"
 
+projects_dir: "/home/{{ deployer }}/projects"
+project_path: "{{ projects_dir }}/{{ project_name }}"
+
 mix_env: "prod"
 setup_postgres: True
 
