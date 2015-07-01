@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 current_directory=$(basename pwd)
+git_repo_url=$(git config --get remote.origin.url)
 mkdir -p deployment/vars
 
 cat <<EOF
@@ -37,8 +38,8 @@ EOF > deployment/ansible.cfg
 
 cat <<EOF
 ---
-project_name: $(echo $current_directory)
-project_repo: "https://github.com/foo/bar.git"
+project_name: $current_directory
+project_repo: "$git_repo_url"
 EOF > deployment/vars/main.yml
 
 
@@ -52,4 +53,4 @@ EOF
 fi
 
 echo "TODO Delete IP addresses from deployment/inventory and add your own"
-echo "TODO Edit project git url in deployment/vars/main.yml"
+echo "TODO Edit project name & git url in deployment/vars/main.yml"
