@@ -1,0 +1,15 @@
+---
+- name: "set default framework"
+  set_fact: elixir_framework="plug"
+
+
+- name: "identify elixir framework"
+  command: "grep -nri ':phoenix' mix.exs"
+  register: "phoenix_grep"
+  args:
+    chdir: "{{ project_path }}"
+
+
+- name: "set framework as phoenix"
+  set_fact: elixir_framework="phoenix"
+  when: 'phoenix_grep.stdout == ""'
