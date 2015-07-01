@@ -6,8 +6,8 @@ tasks:
     stat: path="/swap"
     register: swap_info
 
-  - include: "create-swap-file.yml"
-    when: "create_swap_file == True && swap_info.stat.exists == False"
+  - when: "create_swap_file == True && swap_info.stat.exists == False"
+    include: "create-swap-file.yml"
 
 
   - include: pip.yml
@@ -15,10 +15,12 @@ tasks:
   - include: asdf.yml
 
 
-  - include: postgres.yml
-    when: "setup_postgres == True"
+  - when: "setup_postgres == True"
+    include: postgres.yml
+
 
   - include: elixir-project.yml
 
-  - include: frontend.yml
-    when: "build_frontend == True"
+
+  - when: "build_frontend == True"
+    include: frontend.yml
