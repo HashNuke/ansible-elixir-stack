@@ -1,0 +1,31 @@
+---
+- name: add nginx pkg repo
+  apt_repository: repo="ppa:nginx/stable"
+
+
+- name: install nginx
+  apt: name=nginx update_cache=yes state=present
+
+
+- name: dont start nginx service on system reboot
+  service: name=nginx enabled=no
+
+
+- name: remove nginx default configs
+  file: name="{{ item }}" state=absent
+  with_items:
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+
+
+- name: add nginx config for elixir app
+  template:
+    src: elixir-app.nginx.j2
+    dest: "/etc/nginx/sites-available/{{ project_name }}.nginx"
+
+
+- name: enable elixir app to be served by nginx
+  file:
+    src: "/etc/nginx/sites-available/{{ project_name }}.nginx"
+    dest: "/etc/nginx/sites-enabled/{{ project_name }}.nginx"
+    state: link
