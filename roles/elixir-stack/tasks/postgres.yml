@@ -16,5 +16,5 @@
 
 
 - name: "create database"
-  postgresql_db: name="{{database_name}}" encoding='UTF-8'
-  remote_user: "{{deployer}}"
+  postgresql_db: name="{{ database_name }}" encoding='UTF-8'
+  remote_user: "{{ deployer }}"
