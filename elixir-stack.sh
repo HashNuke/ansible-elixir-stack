@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+current_directory=$(basename pwd)
 mkdir -p deployment/vars
 
 cat <<EOF
@@ -36,6 +37,7 @@ EOF > deployment/ansible.cfg
 
 cat <<EOF
 ---
+project_name: $(echo $current_directory)
 project_repo: "https://github.com/foo/bar.git"
 EOF > deployment/vars/main.yml
 
