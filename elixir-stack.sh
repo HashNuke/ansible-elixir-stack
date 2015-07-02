@@ -2,7 +2,7 @@
 
 current_directory=$(basename `pwd`)
 git_repo_url=$(git config --get remote.origin.url)
-mkdir -p deployment/vars
+mkdir -p deployment/vars deployment/templates
 
 cat > deployment/setup.yml <<EOF
 ---
@@ -43,10 +43,35 @@ project_repo: "$git_repo_url"
 app_port: 3001
 EOF
 
+
+cat > deployment/templates/config.secret.exs.j2 <<EOF
+---
+
+EOF
+
+
+# Check if SERVER=1 when starting release.
+# This way we can compile the release with auto-start server
+# But for all other purposes, can run mix tasks
+
+grep -nri "{:phoenix" mix.exs
+if [ $? = 0 ]; then
+  cat >> config/config.exs <<EOF
+if System.get_env("SERVER") do
+  config :phoenix, :serve_endpoints, true
+end
+EOF
+fi
+
+
 echo '*-*-*'
 echo 'Oolaa ~! your project has been setup for deployment'
 echo '*-*-*'
 echo
+
+
+# Create .tool-versions file if not present
+
 if [ -z ./.tool-versions ]; then
   cat > .tool-versions <<EOF
 erlang 18.0
