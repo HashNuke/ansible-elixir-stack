@@ -51,8 +51,6 @@ $ ansible-playbook playbooks/setup.yml
 $ ansible-playbook playbooks/deploy.yml
 ```
 
-
-
 ## FAQ
 
 * **Is this role meant only for small $5 servers?**  
