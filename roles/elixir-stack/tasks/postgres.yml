@@ -15,6 +15,11 @@
   pip: name=psycopg2
 
 
+- name: calculate database name
+  set_fact: "database_name={{ project_name }}_prod"
+  when: database_name is not defined
+
+
 - name: "create database"
-  postgresql_db: name="{{ database_name }}" encoding='UTF-8'
+  postgresql_db: name="{{ database_name }}" encoding="UTF-8"
   remote_user: "{{ deployer }}"
