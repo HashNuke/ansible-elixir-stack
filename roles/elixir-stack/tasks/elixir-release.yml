@@ -1,0 +1,15 @@
+---
+- name: "create release using exrm"
+  command: "bash -lc 'mix release'"
+  remote_user: "{{ deployer }}"
+  args:
+    chdir: "{{ project_path }}"
+    environment: "MIX_ENV={{ mix_env }}"
+
+
+- name: "ensure running app is stopped"
+  monit: name="{{ project_name }}" state=stopped
+
+
+- name: "start the app again"
+  monit: name="{{ project_name }}" state=started

@@ -1,7 +1,6 @@
 tasks:
   - include: common.yml
 
-
   - name: "check for swap file path"
     stat: path="/swap"
     register: swap_info
@@ -9,21 +8,18 @@ tasks:
   - when: "create_swap_file == True and swap_info.stat.exists == False"
     include: create-swap-file.yml
 
-
   - include: pip.yml
   - include: deployer-user.yml
   - include: asdf.yml
 
-
   - when: "setup_postgres == True"
     include: postgres.yml
 
-
   - include: elixir-project.yml
-
 
   - when: "build_frontend == True"
     include: frontend.yml
 
+  - include: elixir-release.yml
   - include: nginx.yml
   - include: monit.yml
