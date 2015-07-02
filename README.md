@@ -1,6 +1,8 @@
 # ansible-elixir-stack
 
-An Ansible role to setup a server with Elixir & Postgres to deploy apps.
+Tool to deploy your Elixir apps to servers
+
+> Organized as an Ansible role, but requires no knowledge of Ansible
 
 ## Features
 
@@ -9,7 +11,7 @@ An Ansible role to setup a server with Elixir & Postgres to deploy apps.
 * Supports [Phoenix framework](http://phoenixframework.org) out of the box
 * Monitoring using `monit`
 * Automatic restarts if app crashes
-* Log rotation
+* TODO Log rotation
 
 ## Install (once on your computer)
 
