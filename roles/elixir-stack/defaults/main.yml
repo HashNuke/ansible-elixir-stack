@@ -13,7 +13,6 @@ frontend_build_command: "$(npm bin)/brunch build --production"
 post_frontend_build: "mix phoenix.digest"
 
 deployer: deployer
-# elixir_framework: (automatically detected)
 
 monitoring_emails: []
 
