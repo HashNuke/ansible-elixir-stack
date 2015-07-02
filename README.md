@@ -15,20 +15,13 @@ Tool to deploy your Elixir apps to servers
 
 ## Install (once on your computer)
 
-##### 1.) Install Ansible
-
 ```shell
 $ pip install ansible
-```
-
-> If the above command fails, try with a `sudo` prefix.
-> For Mac OS X, Ansible is also available on homebrew.
-
-##### 2.) Install the `HashNuke.elixir-stack` Ansible role
-
-```shell
 $ ansible-galaxy install HashNuke.elixir-stack
 ```
+
+> If the above commands fails, try with a `sudo` prefix.
+> For Mac OS X, Ansible is also available on homebrew.
 
 *Detailed guide on using the `ansible-galaxy` command is available on the [Ansible website](http://docs.ansible.com/galaxy.html#installing-roles)*
 
@@ -41,6 +34,14 @@ $ curl http://git.io/elixir-stack.sh | bash
 ```
 
 Follow instructions it outputs.
+
+For Phoenix projects, in `config/config.exs`, add the following:
+
+```
+if System.get_env("SERVER") do
+  config :phoenix, :serve_endpoints, true
+end
+```
 
 ## Deploying your project
 
