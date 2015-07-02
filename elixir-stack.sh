@@ -40,6 +40,7 @@ cat > deployment/vars/main.yml <<EOF
 ---
 project_name: $current_directory
 project_repo: "$git_repo_url"
+app_port: 3001
 EOF
 
 echo '*-*-*'

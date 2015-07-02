@@ -4,7 +4,7 @@
   remote_user: "{{ deployer }}"
   args:
     chdir: "{{ project_path }}"
-    environment: "MIX_ENV={{ mix_env }}"
+    environment: "MIX_ENV={{ mix_env }} PORT={{ app_port }}"
 
 
 - name: "ensure running app is stopped"
