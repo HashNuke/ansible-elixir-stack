@@ -1,4 +1,11 @@
 ---
+- name: "set npm jobs config"
+  command: "bash -lc 'npm config jobs {{ npm_jobs_config }}'"
+  remote_user: "{{ deployer }}"
+  args:
+    chdir: "{{ project_path }}/{{ frontend_dir }}"
+
+
 - name: "fetch npm dependencies"
   command: 'bash -lc "npm install --production"'
   remote_user: "{{ deployer }}"
