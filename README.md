@@ -23,7 +23,13 @@ $ ansible-galaxy install HashNuke.elixir-stack
 
 ## Setup your project
 
-1.) Add exrm as your project's dependency
+1.) Add [exrm](https://github.com/bitwalker/exrm) as your project's dependency in mix.exs
+
+```elixir
+defp deps do
+  [{:exrm, "~> 0.18.1"}]
+end
+```
 
 2.) In your project dir, run following command:
 
