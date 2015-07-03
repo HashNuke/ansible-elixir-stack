@@ -57,6 +57,7 @@ EOF
 grep -nri "{:phoenix" mix.exs
 if [ $? = 0 ]; then
   cat >> config/config.exs <<EOF
+# This line was automatically added by ansible-elixir-stack setup script
 if System.get_env("SERVER") do
   config :phoenix, :serve_endpoints, true
 end
