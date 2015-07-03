@@ -2,9 +2,9 @@
 
 current_directory=$(basename `pwd`)
 git_repo_url=$(git config --get remote.origin.url)
-mkdir -p deployment/vars deployment/templates
+mkdir -p playbooks/vars playbooks/templates
 
-cat > deployment/setup.yml <<EOF
+cat > playbooks/setup.yml <<EOF
 ---
 hosts: app-servers
 
@@ -13,7 +13,7 @@ roles:
 EOF
 
 
-cat > deployment/deploy.yml <<EOF
+cat > playbooks/deploy.yml <<EOF
 ---
 hosts: app-servers
 
@@ -22,7 +22,7 @@ roles:
 EOF
 
 
-cat > deployment/inventory <<EOF
+cat > playbooks/inventory <<EOF
 [app-servers]
 1.2.3.4
 4.5.6.7
@@ -31,12 +31,12 @@ cat > deployment/inventory <<EOF
 EOF
 
 
-cat > deployment/ansible.cfg <<EOF
+cat > ansible.cfg <<EOF
 [defaults]
 inventory=inventory
 EOF
 
-cat > deployment/vars/main.yml <<EOF
+cat > playbooks/vars/main.yml <<EOF
 ---
 project_name: $current_directory
 project_repo: "$git_repo_url"
@@ -44,7 +44,7 @@ app_port: 3001
 EOF
 
 
-cat > deployment/templates/config.secret.exs.j2 <<EOF
+cat > playbooks/templates/config.secret.exs.j2 <<EOF
 ---
 
 EOF
@@ -82,5 +82,5 @@ EOF
   echo "TODO Edit .tool-versions file with appropriate versions of Erlang, Elixir & Node.js required for project"
 fi
 
-echo "TODO Add server IP address to deployment/inventory file"
-echo "TODO Edit project name & git url in deployment/vars/main.yml"
+echo "TODO Add server IP address to playbooks/inventory file"
+echo "TODO Edit project name & git url in playbooks/vars/main.yml"
