@@ -23,7 +23,3 @@
     dest: "/etc/monit/conf.d/{{ project_name }}.monit"
   notify:
     - reload monit
-
-
-- name: start app daemon using monit
-  monit: name="{{ project_name }}" state=started

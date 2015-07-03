@@ -7,6 +7,13 @@
   remote_user: "{{ deployer }}"
 
 
+- name: "install tool versions"
+  command: 'bash -lc "asdf install"'
+  remote_user: "{{ deployer }}"
+  args:
+    chdir: "{{ project_path }}"
+
+
 - name: "fetch mix dependencies"
   command: 'bash -lc "mix deps.get"'
   remote_user: "{{ deployer }}"
