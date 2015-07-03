@@ -1,0 +1,23 @@
+upstream {{project_name}} {
+    server localhost:{{app_port}};
+}
+
+
+server {
+    root {{ project_path }}/priv/static;
+    listen 80;
+    index index.html;
+
+
+    location @proxy {
+        proxy_pass http://{{project_name}};
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+
+    location / {
+        try_files $uri $uri/ @proxy;
+    }
+
+}

@@ -20,7 +20,7 @@
 
 - name: add nginx config for elixir app
   template:
-    src: elixir-app.nginx.j2
+    src: app.nginx.j2
     dest: "/etc/nginx/sites-available/{{ project_name }}.nginx"
 
 
