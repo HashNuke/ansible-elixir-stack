@@ -22,7 +22,7 @@ roles:
 EOF
 
 
-cat > playbooks/inventory <<EOF
+cat > inventory <<EOF
 [app-servers]
 1.2.3.4
 4.5.6.7
@@ -82,5 +82,5 @@ EOF
   echo "TODO Edit .tool-versions file with appropriate versions of Erlang, Elixir & Node.js required for project"
 fi
 
-echo "TODO Add server IP address to playbooks/inventory file"
+echo "TODO Add server IP address to inventory file"
 echo "TODO Edit project name & git url in playbooks/vars/main.yml"
