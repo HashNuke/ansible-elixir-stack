@@ -1,15 +1,14 @@
-tasks:
+---
+- include: setup.yml
+  when: action == "setup"
 
-  - include: setup.yml
-    when: action == "setup"
 
+- include: elixir-project.yml
 
-  - include: elixir-project.yml
+- when: "build_frontend == True"
+  include: frontend.yml
 
-  - when: "build_frontend == True"
-    include: frontend.yml
+- include: elixir-release.yml
 
-  - include: elixir-release.yml
-
-  - name: start app daemon using monit
-    monit: name="{{ project_name }}" state=started
+- name: start app daemon using monit
+  monit: name="{{ project_name }}" state=started
