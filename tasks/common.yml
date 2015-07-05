@@ -6,6 +6,7 @@
     - wget
     - unzip
     - git
+    - python-dev
     - python-apt
     - automake
     - autoconf
