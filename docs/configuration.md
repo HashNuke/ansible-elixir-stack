@@ -3,8 +3,9 @@
 You can add more variables to `deployment/vars/main.yml`. Refer to the table below for available variables and their default values.
 
 
-project_version
+git_ref (default master)
 frontend_build (default True)
+git_versioning
 frontend_dir
 frontend_build_command
 deployer (default deployer)
