@@ -1,5 +1,5 @@
 ---
-project_version: "master"
+git_ref: "master"
 
 projects_dir: "/home/{{ deployer }}/projects"
 project_path: "{{ projects_dir }}/{{ project_name }}"

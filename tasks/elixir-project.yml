@@ -2,7 +2,7 @@
 - name: "clone project"
   git:
     repo: "{{ project_repo }}"
-    version: "{{ project_version }}"
+    version: "{{ git_ref }}"
     dest: "{{ project_path }}"
   remote_user: "{{ deployer }}"
 
