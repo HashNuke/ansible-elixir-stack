@@ -9,8 +9,9 @@
 
 
 - name: "install tool versions"
-  command: 'bash -lc "asdf install"'
+  command: "/home/{{ deployer }}/.asdf/bin/asdf install"
   remote_user: "{{ deployer }}"
+  async: 1800
   args:
     chdir: "{{ project_path }}"
 
@@ -20,4 +21,5 @@
   remote_user: "{{ deployer }}"
   args:
     chdir: "{{ project_path }}"
-    environment: "MIX_ENV={{ mix_env }}"
+  environment:
+    MIX_ENV: "{{ mix_env }}"

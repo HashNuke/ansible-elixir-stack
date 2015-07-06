@@ -9,7 +9,7 @@
 
 
 - name: "create .ssh dir for deployer"
-  file: path="/home/{{deployer}}/.ssh" state=directory
+  file: path="/home/{{ deployer }}/.ssh" state=directory
 
 
 - name: "copy authorized keys to deployer user"
@@ -17,9 +17,9 @@
 
 
 - name: "chown the authorized_keys file"
-  file: path="/home/{{deployer}}/.ssh" recurse=yes mode=0700 owner="{{deployer}}"
+  file: path="/home/{{deployer}}/.ssh" recurse=yes mode=0700 owner="{{ deployer }}"
 
 
 - name: "ensure projects directory"
   file: path="~/projects" state=directory
-  remote_user: "{{deployer}}"
+  remote_user: "{{ deployer }}"
