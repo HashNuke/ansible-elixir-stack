@@ -7,7 +7,7 @@
   apt: name=nginx update_cache=yes state=present
 
 
-- name: dont start nginx service on system reboot
+- name: "don't start nginx service on system reboot"
   service: name=nginx enabled=no
 
 

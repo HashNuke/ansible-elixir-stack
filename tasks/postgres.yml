@@ -1,21 +1,21 @@
 ---
-# - name: "add postgres repository"
-#   apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
-#
-#
-# - name: "add postgres repository key"
-#   apt_key: url="https://www.postgresql.org/media/keys/ACCC4CF8.asc"
-#
-#
-# - name: "install postgres & libpq-dev"
-#   apt: name="{{ item }}" update_cache=yes state=present
-#   with_items:
-#     - postgresql-9.4
-#     - libpq-dev
-#
-#
-# - name: install psycopg2 python module
-#   pip: name=psycopg2
+- name: "add postgres repository"
+  apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+
+
+- name: "add postgres repository key"
+  apt_key: url="https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+
+
+- name: "install postgres & libpq-dev"
+  apt: name="{{ item }}" update_cache=yes state=present
+  with_items:
+    - postgresql-9.4
+    - libpq-dev
+
+
+- name: install psycopg2 python module
+  pip: name=psycopg2
 
 
 - name: ensure credentials dir for deployer user

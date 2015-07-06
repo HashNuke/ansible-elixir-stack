@@ -1,7 +1,29 @@
 ---
-- include: setup.yml
-  when: action == "setup"
-
+# - when: action == "setup"
+#   include: common.yml
+#
+# - when: action == "setup"
+#   name: "check for swap file path"
+#   stat: path="/swap"
+#   register: swap_info
+#
+# - when: "action == 'setup' and create_swap_file == True and swap_info.stat.exists == False"
+#   include: create-swap-file.yml
+#
+#
+# - when: action == "setup"
+#   include: pip.yml
+#
+# - when: action == "setup"
+#   include: deployer-user.yml
+#
+# - when: action == "setup"
+#   include: asdf.yml
+#
+# - when: "action == 'setup' and setup_postgres == True"
+#   include: postgres.yml
+#   tags:
+#     - postgres
 
 - include: elixir-project.yml
 
@@ -9,6 +31,12 @@
   include: frontend.yml
 
 - include: elixir-release.yml
+
+- when: action == "setup"
+  include: nginx.yml
+
+- when: action == "setup"
+  include: monit.yml
 
 - name: start app daemon using monit
   monit: name="{{ project_name }}" state=started
