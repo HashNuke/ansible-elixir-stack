@@ -11,8 +11,6 @@
 - name: "install tool versions"
   command: 'bash -lc "asdf install"'
   remote_user: "{{ deployer }}"
-  async: 1800
-  poll: 5
   args:
     chdir: "{{ project_path }}"
 
