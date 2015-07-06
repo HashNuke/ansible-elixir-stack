@@ -2,12 +2,15 @@
 - name: "install system packages"
   apt: name="{{ item }}" update_cache=yes state=present
   with_items:
+    - gcc
+    - g++
     - curl
     - wget
     - unzip
     - git
     - python-dev
     - python-apt
+    - make
     - automake
     - autoconf
     - libreadline-dev
