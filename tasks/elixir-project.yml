@@ -14,10 +14,24 @@
   remote_user: "{{ deployer }}"
 
 
+- name: "generate secret key base"
+  command: "openssl rand -base64 {{ secret_key_base_length }}"
+  register: openssl_random_string
+
+
+- name: set secret_key_base
+  set_fact: "secret_key_base={{ openssl_random_string.stdout }}"
+
+
+- name: add prod.secret.exs from template
+  template:
+    src: prod.secret.exs.j2
+    dest: "{{ project_path}}/config/prod.secret.exs"
+
+
 - name: "fetch mix dependencies"
-  command: 'bash -lc "mix deps.get"'
+  command: bash -lc 'mix deps.get' chdir="{{ project_path }}"
+  async: 900
   remote_user: "{{ deployer }}"
-  args:
-    chdir: "{{ project_path }}"
   environment:
     MIX_ENV: "{{ mix_env }}"

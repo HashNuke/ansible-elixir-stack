@@ -18,22 +18,13 @@
   pip: name=psycopg2
 
 
-- name: ensure credentials dir for deployer user
-  command: "mkdir -p ~/credentials"
-  become_user: "postgres"
-
-
 - name: create postgres user for deployer
   postgresql_user:
     name: "{{ deployer }}"
-    password: "{{ lookup('password', '~/credentials/' + deployer + '_postgres length=15') }}"
+    password: "{{ database_password }}"
     role_attr_flags: CREATEDB,SUPERUSER
   sudo: yes
   sudo_user: postgres
-
-- name: calculate database name
-  set_fact: "database_name={{ project_name }}_prod"
-  when: database_name is not defined
 
 
 - name: "create database"
