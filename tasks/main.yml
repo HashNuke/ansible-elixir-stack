@@ -10,7 +10,6 @@
 - when: "action == 'setup' and create_swap_file == True and swap_info.stat.exists == False"
   include: create-swap-file.yml
 
-
 - when: action == "setup"
   include: pip.yml
 
@@ -20,18 +19,15 @@
 - when: action == "setup"
   include: asdf.yml
 
-- when: "setup_postgres == True"
+- when: "setup_postgres == True and database_name is not defined"
   name: "calculate database name"
   set_fact: "database_name={{ project_name }}_prod"
-  when: database_name is not defined
 
 - name: "create or get postgres password"
   set_fact: "database_password={{ lookup('password', '~/credentials/' + deployer + '_postgres length=15') }}"
 
 - when: "action == 'setup' and setup_postgres == True"
   include: postgres.yml
-  tags:
-    - postgres
 
 - include: elixir-project.yml
 
