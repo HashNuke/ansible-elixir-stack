@@ -9,10 +9,9 @@
 
 
 - name: "install tool versions"
-  command: "/home/{{ deployer }}/.asdf/bin/asdf install"
+  command: bash -lc 'asdf install' chdir="{{ project_path }}"
+  async: 1800
   remote_user: "{{ deployer }}"
-  args:
-    chdir: "{{ project_path }}"
 
 
 - name: "fetch mix dependencies"
