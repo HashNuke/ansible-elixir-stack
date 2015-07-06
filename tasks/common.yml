@@ -21,3 +21,6 @@
     - libffi-dev
     - libtool
     - unixodbc-dev
+
+- name: should have credentials dir
+  file: path=~/credentials state=directory
