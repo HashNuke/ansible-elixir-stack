@@ -1,22 +1,35 @@
 ---
-- name: "add postgres repository"
-  apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+# - name: "add postgres repository"
+#   apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+#
+#
+# - name: "add postgres repository key"
+#   apt_key: url="https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+#
+#
+# - name: "install postgres & libpq-dev"
+#   apt: name="{{ item }}" update_cache=yes state=present
+#   with_items:
+#     - postgresql-9.4
+#     - libpq-dev
+#
+#
+# - name: install psycopg2 python module
+#   pip: name=psycopg2
 
 
-- name: "add postgres repository key"
-  apt_key: url="https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+- name: ensure credentials dir for deployer user
+  command: "mkdir -p ~/credentials"
+  become_user: "postgres"
 
 
-- name: "install postgres & libpq-dev"
-  apt: name="{{ item }}" update_cache=yes state=present
-  with_items:
-    - postgresql-9.4
-    - libpq-dev
-
-
-- name: install psycopg2 python module
-  pip: name=psycopg2
-
+- name: create postgres user for deployer
+  postgresql_user:
+    name: "{{ deployer }}"
+    password: "{{ lookup('password', '~/credentials/' + deployer + '_postgres length=15') }}"
+    role_attr_flags: CREATEDB,SUPERUSER
+  sudo: yes
+  sudo_user: postgres
 
 - name: calculate database name
   set_fact: "database_name={{ project_name }}_prod"
@@ -25,4 +38,5 @@
 
 - name: "create database"
   postgresql_db: name="{{ database_name }}" encoding="UTF-8"
-  remote_user: "{{ deployer }}"
+  sudo: yes
+  sudo_user: postgres

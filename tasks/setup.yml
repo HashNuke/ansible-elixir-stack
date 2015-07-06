@@ -14,6 +14,8 @@
 
 - when: "setup_postgres == True"
   include: postgres.yml
+  tags:
+    - postgres
 
 
 - include: nginx.yml
