@@ -24,5 +24,6 @@ create_swap_file: True
 # which is approximately 2097 thousand ( == 2097k)
 swap_size: 2097K
 
-npm_jobs_config: 1
+npm_config_jobs: 1
+npm_config_install_production: False
 secret_key_base_length: 64
