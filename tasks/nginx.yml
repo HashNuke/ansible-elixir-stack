@@ -29,5 +29,3 @@
     src: "/etc/nginx/sites-available/{{ project_name }}.nginx"
     dest: "/etc/nginx/sites-enabled/{{ project_name }}.nginx"
     state: link
-
-- name: nginx-moni
