@@ -27,7 +27,7 @@
 
 - include: project.yml
 
-- when: "build_frontend == True"
+- when: build_frontend == True
   include: frontend.yml
 
 - include: release.yml
