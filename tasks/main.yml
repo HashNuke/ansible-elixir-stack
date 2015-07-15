@@ -26,6 +26,11 @@
 - name: "create or get postgres password"
   set_fact: database_password="{{ lookup('password', '~/credentials/' + deployer + '_postgres length=15') }}"
 
+
+- name: "set database user"
+  set_fact: database_user="{{ deployer }}"
+
+
 - when: "action == 'setup' and setup_postgres == True"
   include: postgres.yml
 
