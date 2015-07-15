@@ -12,7 +12,7 @@
 
 
 - name: start monit now & mark to be started on system reboot
-  service: name=monit started=yes enabled=yes
+  service: name=monit state=started enabled=yes
   notify:
     - restart monit
 
