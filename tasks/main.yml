@@ -24,7 +24,7 @@
   set_fact: "database_name={{ project_name }}_prod"
 
 - name: "create or get postgres password"
-  set_fact: "database_password={{ lookup('password', '~/credentials/' + deployer + '_postgres length=15') }}"
+  set_fact: database_password="{{ lookup('password', '~/credentials/' + deployer + '_postgres length=15') }}"
 
 - when: "action == 'setup' and setup_postgres == True"
   include: postgres.yml
