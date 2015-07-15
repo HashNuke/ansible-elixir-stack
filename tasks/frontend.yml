@@ -1,6 +1,6 @@
 ---
 - name: "set npm jobs config"
-  command: "bash -lc 'npm config jobs {{ npm_jobs_config }}'"
+  command: bash -lc "npm config set jobs {{ npm_config_jobs }}"
   remote_user: "{{ deployer }}"
   args:
     chdir: "{{ project_path }}/{{ frontend_dir }}"
