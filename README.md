@@ -57,7 +57,7 @@ $ ansible-playbook playbooks/setup.yml
 $ ansible-playbook playbooks/deploy.yml
 ```
 
-> By default the application is stopped and started on each deploy. [Read how to enable hot code-swapping](docs/hot-code-swapping.md).
+> By default the application is restarted on each deploy. [Read how to enable hot code-swapping](docs/hot-code-swapping.md).
 
 
 ## FAQ
