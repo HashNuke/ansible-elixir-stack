@@ -20,7 +20,7 @@
 
 
 - name: set secret_key_base
-  set_fact: "secret_key_base={{ openssl_random_string.stdout }}"
+  set_fact: secret_key_base="{{ openssl_random_string.stdout }}"
 
 
 - name: add prod.secret.exs from template
