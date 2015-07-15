@@ -32,11 +32,21 @@
 
 - include: release.yml
 
-# - when: action == "setup"
-#   include: nginx.yml
+- when: action == "setup"
+  include: nginx.yml
 
 - when: action == "setup"
   include: monit.yml
 
 - name: start app daemon using monit
   monit: name="{{ project_name }}" state=restarted
+
+# restart nginx only during setup
+- when: action == "setup"
+  name: start nginx using monit
+  monit: name="nginx" state=restarted
+
+# ensure if started when deploying
+- when: action != "setup"
+  name: start nginx using monit
+  monit: name="nginx" state=started
