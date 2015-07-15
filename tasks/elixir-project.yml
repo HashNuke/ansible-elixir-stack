@@ -27,7 +27,7 @@
   template:
     src: templates/prod.secret.exs.j2
     dest: "{{ project_path}}/config/prod.secret.exs"
-
+  remote_user: "{{ deployer }}"
 
 - name: install hex
   command: bash -lc "mix local.hex --force" chdir="{{ project_path }}"
