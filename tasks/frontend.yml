@@ -6,23 +6,45 @@
     chdir: "{{ project_path }}/{{ frontend_dir }}"
 
 
+- when: npm_config_install_production == True
+  name: calculate npm install options
+  set_fact: npm_install_options="--production"
+
+
+- when: npm_config_install_production == False
+  name: calculate npm install options
+  set_fact: npm_install_options=""
+
+
 - name: "fetch npm dependencies"
-  command: 'bash -lc "npm install --production"'
+  command: bash -lc "npm install {{npm_install_options}}" chdir="{{ project_path }}/{{ frontend_dir }}"
+  remote_user: "{{ deployer }}"
+  async: 1800
+
+
+- name: check for bower.json
+  stat: path="{{ project_path }}/{{frontend_dir}}/bower.json"
+  register: bower_json_file
+
+
+- when: bower_json_file.stat.exists == True
+  name: install bower dependencies
+  command: bash -lc "$(npm bin)/bower install"
   remote_user: "{{ deployer }}"
   args:
     chdir: "{{ project_path }}/{{ frontend_dir }}"
 
 
 - name: "build frontend assets"
-  command: 'bash -lc "{{ frontend_build_command }}"'
+  command: bash -lc "{{ frontend_build_command }}"
   remote_user: "{{ deployer }}"
   args:
     chdir: "{{ project_path }}/{{ frontend_dir }}"
 
 
-- name: "post-frontend-build command"
+- when: "post_frontend_build != False"
+  name: "post-frontend-build command"
   command: 'bash -lc "{{ post_frontend_build }}"'
-  when: "post_frontend_build != False"
   remote_user: "{{ deployer }}"
   args:
     chdir: "{{ project_path }}"
