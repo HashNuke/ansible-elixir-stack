@@ -63,10 +63,7 @@ $ ansible-playbook playbooks/deploy.yml
 ## FAQ
 
 * **Is this only meant for small $5 servers?**  
-Should fit servers of any size. In that case you could also increase the swap and npm jobs config for more freedom.
-
-* **This project abuses modularity of Ansible roles**  
-I needed a quick & easy way to setup stuff for hobby apps that don't fit on Heroku. This one solves my problem.
+Should fit servers of any size. In that case you could also increase the swap and npm
 
 * **How to have different set of servers for staging and production?**  
 Use the `inventory` file as a template and maintain different inventory files for staging and production. Let's say your staging inventory file is called `staging.inventory`, then you could do `ansible-playbook setup.yml -i staging.inventory` (and similar for deploy). Notice the `-i` switch.  
