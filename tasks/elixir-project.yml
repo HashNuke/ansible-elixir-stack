@@ -25,8 +25,18 @@
 
 - name: add prod.secret.exs from template
   template:
-    src: prod.secret.exs.j2
+    src: templates/prod.secret.exs.j2
     dest: "{{ project_path}}/config/prod.secret.exs"
+
+
+- name: install hex
+  command: bash -lc "mix local.hex --force" chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+
+
+- name: install rebar
+  command: bash -lc "mix local.rebar --force" chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
 
 
 - name: "fetch mix dependencies"
