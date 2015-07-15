@@ -23,3 +23,11 @@
     dest: "/etc/monit/conf.d/{{ project_name }}.monit"
   notify:
     - reload monit
+
+
+# - name: add monit config for nginx
+#   template:
+#     src: nginx.monit.j2
+#     dest: "/etc/monit/conf.d/nginx.monit"
+#   notify:
+#     - reload monit

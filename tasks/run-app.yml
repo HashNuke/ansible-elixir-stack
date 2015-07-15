@@ -1,0 +1,7 @@
+---
+- name: "ensure running app is stopped"
+  monit: name="{{ project_name }}" state=stopped
+
+
+- name: "start the app again"
+  monit: name="{{ project_name }}" state=started

@@ -25,18 +25,18 @@
 - when: "action == 'setup' and setup_postgres == True"
   include: postgres.yml
 
-- include: elixir-project.yml
+- include: project.yml
 
 - when: "build_frontend == True"
   include: frontend.yml
 
-- include: elixir-release.yml
+- include: release.yml
 
-- when: action == "setup"
-  include: nginx.yml
+# - when: action == "setup"
+#   include: nginx.yml
 
 - when: action == "setup"
   include: monit.yml
 
 - name: start app daemon using monit
-  monit: name="{{ project_name }}" state=started
+  monit: name="{{ project_name }}" state=restarted
