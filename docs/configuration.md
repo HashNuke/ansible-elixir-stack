@@ -13,5 +13,6 @@ elixir_framework (automatically detected)
 create_swap (default True)
 swap_space (default 2gb)
 npm_jobs_config (default 1)
-monitoring_emails
+app_alert_emails
+nginx_alert_emails
 setup_postgres (default: True)
