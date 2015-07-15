@@ -1,3 +1,3 @@
-check process {{project_name}} with path "{{project_path}}/rel/{{project_name}}/bin/{{project_name}} ping"
-       start program = "/bin/su - {{ deployer }} -c '"{{project_path}}/rel/{{project_name}}/bin/{{project_name}} start'"
-       stop program = "/bin/su - {{ deployer }} -c '"{{project_path}}/rel/{{project_name}}/bin/{{project_name}} stop"'"
+check process {{project_name}} MATCHING "firebrick/releases"
+       start program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{project_name}}/bin/{{project_name}} start'"
+       stop program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{project_name}}/bin/{{project_name}} stop'"
