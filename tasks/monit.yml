@@ -11,7 +11,7 @@
     - "allow localhost"
 
 
-- name: start monit now & mark to be started on system reboot
+- name: start monit & mark to be started on system reboots
   service: name=monit state=started enabled=yes
   notify:
     - restart monit
