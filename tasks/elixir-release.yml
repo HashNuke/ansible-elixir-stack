@@ -1,9 +1,7 @@
 ---
 - name: "create release using exrm"
-  command: "bash -lc 'SERVER=1 mix release'"
+  command: bash -lc 'SERVER=1 mix release' chdir="{{ project_path }}"
   remote_user: "{{ deployer }}"
-  args:
-    chdir: "{{ project_path }}"
   environment:
     MIX_ENV: "{{ mix_env }}"
     PORT: "{{ app_port }}"
