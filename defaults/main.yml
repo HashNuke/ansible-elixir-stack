@@ -14,7 +14,9 @@ post_frontend_build: "mix phoenix.digest"
 
 deployer: deployer
 
-monitoring_emails: []
+domains: []
+app_alert_emails: []
+nginx_alert_emails: []
 
 create_swap_file: True
 
