@@ -8,6 +8,7 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 
 * **1-command setup & deploys**
 * Deploy multiple hobby apps on a $5 DigitalOcean server
+* Hot code-swapping using [exrm](https://github.com/bitwalker/exrm)
 * Monitoring & automatic restarts using `monit`
 * Log rotation
 * Organized as an Ansible role, BUT requires no knowledge of Ansible
@@ -42,9 +43,7 @@ $ curl http://git.io/elixir-stack.sh | bash
 
 ## Deploy your project
 
-Assuming you have/do the following:
-* SSH root access to the server
-* Update project's version in `mix.exs` everytime you deploy (OR [read on how to avoid this](docs/automate-project-version.md))
+Assuming you have root SSH access to the server
 
 ##### To deploy the first time
 
@@ -57,6 +56,9 @@ $ ansible-playbook playbooks/setup.yml
 ```sh
 $ ansible-playbook playbooks/deploy.yml
 ```
+
+> By default the application is stopped and started on each deploy. [Read how to enable hot code-swapping](docs/hot-code-swapping.md).
+
 
 ## FAQ
 
