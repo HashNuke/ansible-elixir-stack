@@ -10,8 +10,9 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 * Deploy multiple hobby apps on a $5 DigitalOcean server
 * Hot code-swapping using [exrm](https://github.com/bitwalker/exrm)
 * Monitoring & automatic restarts using `monit`
-* Log rotation
 * Organized as an Ansible role, BUT requires no knowledge of Ansible
+* TODO Log rotation
+* TODO domains
 
 ## Install
 
