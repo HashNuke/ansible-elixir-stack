@@ -47,7 +47,7 @@ Assuming you have/do the following:
 
 ##### To deploy the first time
 
-```sh-session
+```sh
 $ ansible-playbook playbooks/setup.yml
 ```
 
