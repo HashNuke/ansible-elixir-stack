@@ -6,6 +6,10 @@ upstream {{project_name}} {
 server {
     root {{ project_path }}/priv/static;
     listen 80;
+    {% if not domains %}
+    server_name {% for domain in domains %} {{ domain }} {% endfor %};
+    {% endif %}
+
 
     location / {
         proxy_pass http://{{project_name}};
