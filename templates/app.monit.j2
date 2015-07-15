@@ -1,3 +1,6 @@
 check process {{project_name}} MATCHING "firebrick/releases"
        start program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{project_name}}/bin/{{project_name}} start'"
        stop program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{project_name}}/bin/{{project_name}} stop'"
+       {% for alert_email in alert_emails %}
+         alert {{ alert_email }}
+       {% endfor %}
