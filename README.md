@@ -2,7 +2,7 @@
 
 Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixframework.org) apps to servers.
 
-> Organized as an Ansible role, BUT requires no knowledge of Ansible
+> To deploy to Heroku, use the [Heroku Elixir buildpack](https://github.com/HashNuke/heroku-buildpack-elixir) instead.
 
 ## Features
 
@@ -10,10 +10,11 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 * Deploy multiple hobby apps on a $5 DigitalOcean server
 * Monitoring & automatic restarts using `monit`
 * Log rotation
+* Organized as an Ansible role, BUT requires no knowledge of Ansible
 
 ## Install
 
-```shell
+```sh
 $ pip install ansible
 $ ansible-galaxy install HashNuke.elixir-stack
 ```
@@ -33,7 +34,7 @@ end
 
 2.) In your project dir, run following command:
 
-```shell
+```sh
 $ curl http://git.io/elixir-stack.sh | bash
 ```
 
@@ -53,20 +54,21 @@ $ ansible-playbook playbooks/setup.yml
 
 ##### To update your project
 
-```shell
+```sh
 $ ansible-playbook playbooks/deploy.yml
 ```
 
 ## FAQ
 
-* **Is this role meant only for small $5 servers?**  
+* **Is this only meant for small $5 servers?**  
 Should fit servers of any size. In that case you could also increase the swap and npm jobs config for more freedom.
 
-* **This role goes against modularity of Ansible roles**  
+* **This project abuses modularity of Ansible roles**  
 I needed a quick & easy way to setup stuff for hobby apps that don't fit on Heroku. This one solves my problem.
 
 * **How to have different set of servers for staging and production?**  
-Use the `inventory` file as a template and maintain different inventory files for staging and production. Let's say your staging inventory file is called `staging.inventory`, then you could do `ansible-playbook setup.yml -i staging.inventory` (and similar for deploy). Notice the `-i` switch. *B/w if you are going this way, you probably should learn Ansible or hire someone who knows it*
+Use the `inventory` file as a template and maintain different inventory files for staging and production. Let's say your staging inventory file is called `staging.inventory`, then you could do `ansible-playbook setup.yml -i staging.inventory` (and similar for deploy). Notice the `-i` switch.  
+*B/w if you are going this way, you probably should learn Ansible or hire someone who knows it*
 
 
 ## Misc
