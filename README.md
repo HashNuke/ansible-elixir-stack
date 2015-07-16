@@ -18,7 +18,7 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 
 ```sh
 $ pip install ansible
-$ ansible-galaxy install HashNuke.elixir-stack
+$ ansible-galaxy install HashNuke.ansible-elixir-stack
 ```
 
 > If the above commands fail, try with `sudo`.
