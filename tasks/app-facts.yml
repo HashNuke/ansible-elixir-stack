@@ -1,0 +1,26 @@
+---
+- name: "generate secret key base"
+  command: "openssl rand -base64 {{ secret_key_base_length }}"
+  register: openssl_random_string
+
+
+- name: set secret_key_base
+  set_fact: secret_key_base="{{ openssl_random_string.stdout }}"
+
+
+- name: detect endpoint module
+  command: grep -m 1 -o '[[:alnum:]]*.Endpoint' {{ project_path }}/config/dev.exs
+  register: grep_endpoint_module
+
+
+- name: set app_endpoint_module fact
+  set_fact: app_endpoint_module="{{ grep_endpoint_module.stdout }}"
+
+
+- name: detect repo module
+  command: grep -m 1 -o '[[:alnum:]]*.Repo' {{ project_path }}/config/dev.exs
+  register: grep_repo_module
+
+
+- name: set app_repo_module fact
+  set_fact: app_repo_module="{{ grep_repo_module.stdout }}"
