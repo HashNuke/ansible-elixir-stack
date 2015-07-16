@@ -39,7 +39,7 @@ end
 2.) In your project dir, run following command:
 
 ```sh
-$ curl http://git.io/elixir-stack.sh | bash
+$ curl http://git.io/ansible-elixir-stack.sh | bash
 ```
 
 **FOLLOW INSTRUCTIONS OF ABOVE COMMAND**
