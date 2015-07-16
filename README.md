@@ -8,6 +8,7 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 
 * **1-command setup & deploys**
 * Ships with Postgres support
+* Automatically creates a [`prod.secret.exs`](docs/prod-secret-file.md) file
 * Deploy multiple hobby apps on a $5 DigitalOcean server
 * Custom domains
 * Hot code-reloading using [exrm](https://github.com/bitwalker/exrm)
@@ -64,13 +65,12 @@ $ ansible-playbook playbooks/deploy.yml
 
 > By default the application is restarted on each deploy. [Read how to enable hot code-reloading](docs/hot-code-reloading.md).
 
-
 ## FAQ
 
-* **Is this only meant for small $5 servers?**
+* **Is this only meant for small $5 servers?**  
 Should fit servers of any size. In that case you could also increase the swap and npm
 
-* **How to have different set of servers for staging and production?**
+* **How to have different set of servers for staging and production?**  
 Use the `inventory` file as a template and maintain different inventory files for staging and production. Let's say your staging inventory file is called `staging.inventory`, then you could do `ansible-playbook setup.yml -i staging.inventory` (and similar for deploy). Notice the `-i` switch.
 *B/w if you are going this way, you probably should learn Ansible or hire someone who knows it*
 
