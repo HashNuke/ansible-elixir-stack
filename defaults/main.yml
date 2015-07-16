@@ -21,7 +21,7 @@ nginx_alert_emails: []
 create_swap_file: True
 
 # swap size in 1kb blocks
-# default is around 2gb
+# we'll set the default at around 2gb
 # 2048mb * 1024kb == 2097152
 # which is approximately 2097 thousand ( == 2097k)
 swap_size: 2097K
