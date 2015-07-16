@@ -14,20 +14,26 @@
   remote_user: "{{ deployer }}"
 
 
-- name: "generate secret key base"
-  command: "openssl rand -base64 {{ secret_key_base_length }}"
-  register: openssl_random_string
+- name: check if custom template for prod.secret.exs exists
+  local_action: stat path="templates/prod.secret.exs.j2"
+  register: custom_prod_secret_template
 
 
-- name: set secret_key_base
-  set_fact: secret_key_base="{{ openssl_random_string.stdout }}"
+- when: custom_prod_secret_template.exists == False
+  name: add prod.secret.exs from default template
+  template:
+    src: default-prod.secret.exs.j2
+    dest: "{{ project_path}}/config/prod.secret.exs"
+  remote_user: "{{ deployer }}"
 
 
-- name: add prod.secret.exs from template
+- when: custom_prod_secret_template.exists == True
+  name: add prod.secret.exs from custom template provided
   template:
     src: templates/prod.secret.exs.j2
     dest: "{{ project_path}}/config/prod.secret.exs"
   remote_user: "{{ deployer }}"
+
 
 - name: install hex
   command: bash -lc "mix local.hex --force" chdir="{{ project_path }}"
