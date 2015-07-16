@@ -38,8 +38,8 @@ EOF
 
 cat > playbooks/vars/main.yml <<EOF
 ---
-project_name: $current_directory
-project_repo: "$git_repo_url"
+app_name: $current_directory
+repo_url: "$git_repo_url"
 app_port: 3001
 EOF
 
@@ -83,4 +83,4 @@ EOF
 fi
 
 echo "TODO Add server IP address to inventory file"
-echo "TODO Edit project name & git url in playbooks/vars/main.yml"
+echo "TODO Edit app name & repo url in playbooks/vars/main.yml"

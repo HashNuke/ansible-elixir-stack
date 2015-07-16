@@ -4,15 +4,29 @@ Variables are set in the `playbooks/vars/main.yml` file in your project. A few v
 
 ## Required config
 
-#### project_name
+#### app_name
 
-Name of your project. It is assumed that your app's release will also be of the same name.
+Name of your OTP app. This is the name of your project in `mix.exs` (the value of the `app` key in the `project` function).
 
-* Example values: `"foo"`, `"bar"`
+* Example values: `foo`, `bar`
+
+Let's say your app's mix.exs looks like this:
+
+```elixir
+defmodule Firebrick.Mixfile do
+  use Mix.Project
+
+  def project do
+    [app: :firebrick,
+     version: "0.0.2",
+     ...
+```
+
+`firebrick` is your app name here.
 
 > Do not use the hostname of your server as the app's name. Monit will have conflicts and error out.
 
-#### project_repo
+#### repo_url
 
 Git url of your project
 
