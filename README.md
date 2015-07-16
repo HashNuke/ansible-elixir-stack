@@ -2,9 +2,7 @@
 
 Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixframework.org) apps to servers.
 
-> To deploy to Heroku, use the [Heroku Elixir buildpack](https://github.com/HashNuke/heroku-buildpack-elixir) instead.
-
-**Docs**: [Configuration](docs/configuration.md), [Hot code-reloading](docs/hot-code-reloading.md)
+**Docs**: [[Configuration](docs/configuration.md)], [[Hot code-reloading](docs/hot-code-reloading.md)]
 
 ## Features
 
@@ -15,6 +13,8 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 * Hot code-reloading using [exrm](https://github.com/bitwalker/exrm)
 * Monitoring & automatic restarts using `monit`
 * Organized as an Ansible role, BUT requires no knowledge of Ansible
+
+> To deploy to Heroku, use the [Heroku Elixir buildpack](https://github.com/HashNuke/heroku-buildpack-elixir) instead.
 
 ## Install
 
