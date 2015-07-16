@@ -4,7 +4,7 @@
   register: app_version
 
 - name: upgrade app
-  command: bash -lc 'PORT={{ app_port}} rel/{{ project_name }}/bin/{{ project_name }} upgrade "{{ app_version.stdout }}"' chdir="{{ project_path }}"
+  command: bash -lc 'PORT={{ app_port}} rel/{{ app_name }}/bin/{{ app_name }} upgrade "{{ app_version.stdout }}"' chdir="{{ project_path }}"
   remote_user: "{{ deployer }}"
   environment:
     MIX_ENV: "{{ mix_env }}"

@@ -20,7 +20,7 @@
 - name: add monit config for elixir app
   template:
     src: app.monit.j2
-    dest: "/etc/monit/conf.d/{{ project_name }}.monit"
+    dest: "/etc/monit/conf.d/{{ app_name }}.monit"
   notify:
     - reload monit
 

@@ -1,6 +1,6 @@
-check process {{project_name}} MATCHING "firebrick/releases"
-       start program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{project_name}}/bin/{{project_name}} start'"
-       stop program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{project_name}}/bin/{{project_name}} stop'"
+check process {{app_name}} MATCHING "firebrick/releases"
+       start program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{app_name}}/bin/{{app_name}} start'"
+       stop program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{app_name}}/bin/{{app_name}} stop'"
        {% for alert_email in app_alert_emails %}
          alert {{ alert_email }}
        {% endfor %}

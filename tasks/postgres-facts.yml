@@ -1,7 +1,7 @@
 ---
 - when: "database_name is not defined"
   name: "calculate database name"
-  set_fact: "database_name={{ project_name }}_prod"
+  set_fact: "database_name={{ app_name }}_prod"
 
 
 - name: "create or get postgres password"
