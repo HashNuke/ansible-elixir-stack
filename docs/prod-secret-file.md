@@ -19,10 +19,10 @@ config {{ app_name }}, {{ app_repo_module }},
 
 You can over-ride this default template by placing your own template as `playbooks/templates/prod.secret.exs.j2` in your project. This file uses [Jinga2](http://jinja.pocoo.org) templating engine that Ansible uses. You can quickly identify that variables are surrounded with `{{` and `}}`. That all you need to know to work with this file.
 
-The following variables are made available (calculated approximately):x
+The following variables are made available (calculated approximately):
 
 * `app_name` - This is the OTP app name that you set in `playbooks/vars/main.yml`
-* `app_endpoint` - The endpoint to serve
+* `app_endpoint_module` - The endpoint module to serve
 * `secret_key_base` - A secret key base is generated on the server
 * `app_repo_module` - The repo module the app uses
 * `database_user` - Database user (same as the deployer variable)
