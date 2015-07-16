@@ -4,6 +4,8 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 
 > To deploy to Heroku, use the [Heroku Elixir buildpack](https://github.com/HashNuke/heroku-buildpack-elixir) instead.
 
+**Docs**: [Configuration](docs/configuration.md), [Hot code-reloading](docs/hot-code-reloading.md)
+
 ## Features
 
 * **1-command setup & deploys**
