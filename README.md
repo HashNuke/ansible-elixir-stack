@@ -7,6 +7,7 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 ## Features
 
 * **1-command setup & deploys**
+* Ships with Postgres support
 * Deploy multiple hobby apps on a $5 DigitalOcean server
 * Custom domains
 * Hot code-reloading using [exrm](https://github.com/bitwalker/exrm)
@@ -40,6 +41,8 @@ $ curl http://git.io/elixir-stack.sh | bash
 ```
 
 **FOLLOW INSTRUCTIONS OF ABOVE COMMAND**
+
+> Checkout the [documentation on configuration options](docs/configuration.md)
 
 ## Deploy your project
 
