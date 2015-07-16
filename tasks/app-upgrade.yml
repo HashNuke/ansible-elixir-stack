@@ -1,0 +1,10 @@
+---
+- name: get app version
+  command: bash -lc 'mix run -e \'IO.puts Mix.Project.config[:version]\'' chdir="{{ project_path }}"
+  register: app_version
+
+- name: upgrade app
+  command: bash -lc 'PORT={{ app_port}} rel/{{ project_name }}/bin/{{ project_name }} upgrade "{{ app_version.stdout }}"' chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+  environment:
+    MIX_ENV: "{{ mix_env }}"

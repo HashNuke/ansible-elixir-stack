@@ -1,0 +1,3 @@
+---
+- name: restart app daemon using monit
+  monit: name="{{ project_name }}" state=restarted
