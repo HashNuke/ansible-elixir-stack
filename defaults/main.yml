@@ -4,6 +4,8 @@ git_ref: "master"
 projects_dir: "/home/{{ deployer }}/projects"
 project_path: "{{ projects_dir }}/{{ project_name }}"
 
+deploy_type: "restart"
+
 mix_env: "prod"
 setup_postgres: True
 
