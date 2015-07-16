@@ -1,4 +1,4 @@
-## Configuration options
+# Configuration options
 
 Variables are set in the `playbooks/vars/main.yml` file in your project. A few variables are mandatory and others have convenient defaults. Refer to the list of variables below for details.
 
