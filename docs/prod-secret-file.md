@@ -17,7 +17,7 @@ config {{ app_name }}, {{ app_repo_module }},
   size: 20
 ```
 
-You can over-ride this default template by placing your own template as `playbooks/templates/prod.secret.exs.j2` in your project. This file uses [Jinga2](http://jinja.pocoo.org) templating engine that Ansible uses. You can quickly identify that variables are surrounded with `{{` and `}}`. That all you need to know to work with this file.
+**You can over-ride this default** template by placing your own template as `playbooks/templates/prod.secret.exs.j2` in your project. This file uses [Jinga2](http://jinja.pocoo.org) templating engine that Ansible uses. You can quickly identify that variables are surrounded with `{{` and `}}`. That all you need to know to work with this file.
 
 The following variables are made available (calculated approximately):
 
