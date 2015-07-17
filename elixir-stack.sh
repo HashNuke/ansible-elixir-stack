@@ -9,7 +9,7 @@ cat > playbooks/setup.yml <<EOF
 hosts: app-servers
 
 roles:
-  - {role: "elixir-stack", action: "setup"}
+  - {role: "HashNuke.elixir-stack", action: "setup"}
 EOF
 
 
@@ -18,7 +18,7 @@ cat > playbooks/deploy.yml <<EOF
 hosts: app-servers
 
 roles:
-  - {role: "elixir-stack", action: "deploy"}
+  - {role: "HashNuke.elixir-stack", action: "deploy"}
 EOF
 
 
