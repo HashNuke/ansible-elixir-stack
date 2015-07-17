@@ -1,2 +1,26 @@
 ---
-#TODO
+- name: stop app
+  monit: name="{{ app_name }}" state=stopped
+  ignore_errors: True
+
+
+- name: delete project dir
+  file: path="{{ project_path }}" state=absent
+  ignore_errors: True
+
+
+- name: remove nginx config for app
+  file: path="{{ item }}" state=absent
+  with_items:
+    - "/etc/nginx/sites-available/{{ app_name }}.nginx"
+    - "/etc/nginx/sites-enabled/{{ app_name }}.nginx"
+  ignore_errors: True
+  notify:
+    - reload nginx
+
+
+- name: remove monit config for app
+  file: path="/etc/monit/conf.d/{{ app_name }}.monit" state=absent
+  ignore_errors: True
+  notify:
+    - reload monit
