@@ -1,10 +1,10 @@
 ---
 
 - when: action == "setup"
-  include: actions/setup.yml
+  include: setup.yml
 
 - when: action == "deploy"
-  include: actions/deploy.yml
+  include: deploy.yml
 
 - when: action == "remove-app"
-  include: actions/remove-app.yml
+  include: remove-app.yml
