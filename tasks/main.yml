@@ -1,72 +1,10 @@
 ---
-- when: action == "setup"
-  include: common.yml
-
 
 - when: action == "setup"
-  name: "check for swap file path"
-  stat: path="/swap"
-  register: swap_info
+  include: actions/setup.yml
 
+- when: action == "deploy"
+  include: actions/deploy.yml
 
-- when: "action == 'setup' and create_swap_file == True and swap_info.stat.exists == False"
-  include: create-swap-file.yml
-
-
-- when: action == "setup"
-  include: pip.yml
-
-
-- when: action == "setup"
-  include: deployer-user.yml
-
-
-- when: action == "setup"
-  include: asdf.yml
-
-
-- when: "action == 'setup' and setup_postgres == True"
-  include: postgres-facts.yml
-
-
-- when: "action == 'setup' and setup_postgres == True"
-  include: postgres.yml
-
-
-- include: app-facts.yml
-
-- include: project.yml
-
-
-- when: build_frontend == True
-  include: frontend.yml
-
-
-- include: release.yml
-
-
-- when: action == "setup"
-  include: nginx.yml
-
-
-- when: action == "setup"
-  include: monit.yml
-
-
-- when: deploy_type == "restart"
-  include: app-restart.yml
-
-
-- when: deploy_type == "upgrade"
-  include: app-upgrade.yml
-
-
-# restart nginx only during setup
-- when: action == "setup"
-  name: start nginx using monit
-  monit: name="nginx" state=restarted
-
-# ensure nginx is running when deploying
-- when: action != "setup"
-  name: start nginx using monit
-  monit: name="nginx" state=started
+- when: action == "remove-app"
+  include: actions/remove-app.yml

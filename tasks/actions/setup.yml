@@ -1,0 +1,48 @@
+---
+- include: partials/common.yml
+
+- name: "check for swap file path"
+  stat: path="/swap"
+  register: swap_info
+
+
+- when: create_swap_file == True and swap_info.stat.exists == False
+  include: partials/create-swap-file.yml
+
+
+- include: partials/pip.yml
+- include: partials/deployer-user.yml
+- include: partials/asdf.yml
+
+
+- when: setup_postgres == True
+  include: partials/postgres-facts.yml
+
+
+- when: setup_postgres == True
+  include: partials/postgres.yml
+
+
+- include: partials/app-facts.yml
+- include: partials/project.yml
+
+
+- when: build_frontend == True
+  include: partials/frontend.yml
+
+
+- include: partials/release.yml
+- include: partials/nginx.yml
+- include: partials/monit.yml
+
+
+- when: deploy_type == "restart"
+  include: partials/app-restart.yml
+
+
+- when: deploy_type == "upgrade"
+  include: partials/app-upgrade.yml
+
+
+- name: start nginx using monit
+  monit: name="nginx" state=restarted
