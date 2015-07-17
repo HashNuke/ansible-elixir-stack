@@ -44,4 +44,8 @@
 
 
 - name: start nginx using monit
-  monit: name="nginx" state=restarted
+  monit: name="nginx" state=started
+
+
+- name: reload nginx config
+  service: name=nginx state=reloaded

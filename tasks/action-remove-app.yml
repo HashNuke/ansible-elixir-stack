@@ -15,12 +15,16 @@
     - "/etc/nginx/sites-available/{{ app_name }}.nginx"
     - "/etc/nginx/sites-enabled/{{ app_name }}.nginx"
   ignore_errors: True
-  notify:
-    - reload nginx
+
+
+- name: reload nginx
+  command: "nginx -s reload"
 
 
 - name: remove monit config for app
   file: path="/etc/monit/conf.d/{{ app_name }}.monit" state=absent
   ignore_errors: True
-  notify:
-    - reload monit
+
+
+- name: reload monit
+  service: name=monit state=reloaded

@@ -13,21 +13,18 @@
 
 - name: start monit & mark to be started on system reboots
   service: name=monit state=started enabled=yes
-  notify:
-    - restart monit
 
 
 - name: add monit config for elixir app
   template:
     src: app.monit.j2
     dest: "/etc/monit/conf.d/{{ app_name }}.monit"
-  notify:
-    - reload monit
 
 
 - name: add monit config for nginx
   template:
     src: nginx.monit.j2
     dest: "/etc/monit/conf.d/nginx.monit"
-  notify:
-    - reload monit
+
+- name: reload monit
+  service: name=monit state=reloaded
