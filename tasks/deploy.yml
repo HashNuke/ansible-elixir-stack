@@ -3,7 +3,6 @@
   include: partials/postgres-facts.yml
 
 
-- include: partials/app-facts.yml
 - include: partials/project.yml
 
 

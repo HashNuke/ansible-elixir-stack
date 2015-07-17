@@ -23,7 +23,6 @@
   include: partials/postgres.yml
 
 
-- include: partials/app-facts.yml
 - include: partials/project.yml
 
 
