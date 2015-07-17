@@ -6,8 +6,8 @@ upstream {{app_name}} {
 server {
     root {{ project_path }}/priv/static;
     listen 80;
-    {% if not domains %}
-    server_name {% for domain in domains %} {{ domain }} {% endfor %};
+    {% if domains | length != 0 %}
+    server_name {% for domain in domains %} {{ domain }}{% endfor %};
     {% endif %}
 
 
