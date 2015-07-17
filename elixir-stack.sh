@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-current_directory=$(basename `pwd`)
+app_name=$(grep -m 1 -oh 'app: :[[:alnum:]_]*' mix.exs | sed 's/app:\ ://')
 git_repo_url=$(git config --get remote.origin.url)
 mkdir -p playbooks/vars playbooks/templates
 
@@ -41,7 +41,7 @@ EOF
 
 cat > playbooks/vars/main.yml <<EOF
 ---
-app_name: $current_directory
+app_name: $app_name
 repo_url: "$git_repo_url"
 app_port: 3001
 EOF
