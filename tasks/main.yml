@@ -7,3 +7,9 @@
 
 - when: action == "deploy"
   include: action-deploy.yml
+
+- when: action == "migrate"
+  include: action-migrate.yml
+
+- when: action == "run-cmd"
+  include: action-run-cmd.yml
