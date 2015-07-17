@@ -1,24 +1,24 @@
 ---
 - when: setup_postgres == True
-  include: partials/postgres-facts.yml
+  include: postgres-facts.yml
 
 
-- include: partials/project.yml
+- include: project.yml
 
 
 - when: build_frontend == True
-  include: partials/frontend.yml
+  include: frontend.yml
 
 
-- include: partials/release.yml
+- include: release.yml
 
 
 - when: deploy_type == "restart"
-  include: partials/app-restart.yml
+  include: app-restart.yml
 
 
 - when: deploy_type == "upgrade"
-  include: partials/app-upgrade.yml
+  include: app-upgrade.yml
 
 
 - name: start nginx using monit

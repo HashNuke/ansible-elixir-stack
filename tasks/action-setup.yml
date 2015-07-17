@@ -1,5 +1,5 @@
 ---
-- include: partials/common.yml
+- include: common.yml
 
 - name: "check for swap file path"
   stat: path="/swap"
@@ -7,40 +7,40 @@
 
 
 - when: create_swap_file == True and swap_info.stat.exists == False
-  include: partials/create-swap-file.yml
+  include: create-swap-file.yml
 
 
-- include: partials/pip.yml
-- include: partials/deployer-user.yml
-- include: partials/asdf.yml
-
-
-- when: setup_postgres == True
-  include: partials/postgres-facts.yml
+- include: pip.yml
+- include: deployer-user.yml
+- include: asdf.yml
 
 
 - when: setup_postgres == True
-  include: partials/postgres.yml
+  include: postgres-facts.yml
 
 
-- include: partials/project.yml
+- when: setup_postgres == True
+  include: postgres.yml
+
+
+- include: project.yml
 
 
 - when: build_frontend == True
-  include: partials/frontend.yml
+  include: frontend.yml
 
 
-- include: partials/release.yml
-- include: partials/nginx.yml
-- include: partials/monit.yml
+- include: release.yml
+- include: nginx.yml
+- include: monit.yml
 
 
 - when: deploy_type == "restart"
-  include: partials/app-restart.yml
+  include: app-restart.yml
 
 
 - when: deploy_type == "upgrade"
-  include: partials/app-upgrade.yml
+  include: app-upgrade.yml
 
 
 - name: start nginx using monit
