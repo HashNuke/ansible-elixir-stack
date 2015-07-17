@@ -50,7 +50,7 @@
   name: add prod.secret.exs from default template
   template:
     src: default-prod.secret.exs.j2
-    dest: "{{ project_path}}/config/prod.secret.exs"
+    dest: "{{ project_path }}/config/prod.secret.exs"
   remote_user: "{{ deployer }}"
 
 
@@ -58,7 +58,7 @@
   name: add prod.secret.exs from custom template provided
   template:
     src: templates/prod.secret.exs.j2
-    dest: "{{ project_path}}/config/prod.secret.exs"
+    dest: "{{ project_path }}/config/prod.secret.exs"
   remote_user: "{{ deployer }}"
 
 
