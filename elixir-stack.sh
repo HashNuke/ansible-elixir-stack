@@ -54,7 +54,7 @@ cat > ansible.cfg <<EOF
 inventory=inventory
 
 [ssh_connection]
-ssh_args=-o ForwardAgent=yes
+ssh_args="-o ForwardAgent=yes"
 EOF
 
 cat > playbooks/vars/main.yml <<EOF
