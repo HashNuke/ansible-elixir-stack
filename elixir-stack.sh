@@ -28,6 +28,18 @@ cat > playbooks/deploy.yml <<EOF
 EOF
 
 
+cat > playbooks/remove-app.yml <<EOF
+---
+- hosts: app-servers
+  remote_user: root
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - {role: "HashNuke.elixir-stack", action: "remove-app"}
+EOF
+
+
 cat > inventory <<EOF
 [app-servers]
 1.2.3.4
