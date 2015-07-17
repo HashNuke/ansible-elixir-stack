@@ -65,6 +65,7 @@ end
 EOF
 fi
 
+echo
 echo '*-*-*'
 echo 'Oolaa ~! your project has been setup for deployment'
 echo '*-*-*'
