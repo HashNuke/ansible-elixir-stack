@@ -3,7 +3,7 @@
   file: path=/swap state=touch mode=0600
 
 - name: write blocks
-  command: "dd if=/dev/zero of=/swapfile bs=1024 count={{ swap_size }}"
+  command: "dd if=/dev/zero of=/swap bs=1024 count={{ swap_size }}"
 
 - name: setup swap area in /swap
   command: "mkswap /swap"
