@@ -46,7 +46,7 @@
   register: custom_prod_secret_template
 
 
-- when: custom_prod_secret_template.exists == False
+- when: custom_prod_secret_template.stat.exists == False
   name: add prod.secret.exs from default template
   template:
     src: default-prod.secret.exs.j2
@@ -54,7 +54,7 @@
   remote_user: "{{ deployer }}"
 
 
-- when: custom_prod_secret_template.exists == True
+- when: custom_prod_secret_template.stat.exists == True
   name: add prod.secret.exs from custom template provided
   template:
     src: templates/prod.secret.exs.j2
