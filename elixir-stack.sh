@@ -55,7 +55,7 @@ EOF
 # But for all other purposes, can run mix tasks
 
 (
-grep -m 1 -nri "{:phoenix" mix.exs
+grep -m 1 -nriq "{:phoenix" mix.exs
 if [ $? = 0 ]; then
   cat >> config/config.exs <<EOF
 
