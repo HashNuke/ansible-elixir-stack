@@ -54,16 +54,18 @@ EOF
 # This way we can compile the release with auto-start server
 # But for all other purposes, can run mix tasks
 
-grep -nri "{:phoenix" mix.exs
+(
+grep -m 1 -nri "{:phoenix" mix.exs
 if [ $? = 0 ]; then
   cat >> config/config.exs <<EOF
+
 # This line was automatically added by ansible-elixir-stack setup script
 if System.get_env("SERVER") do
   config :phoenix, :serve_endpoints, true
 end
 EOF
 fi
-
+)
 
 echo '*-*-*'
 echo 'Oolaa ~! your project has been setup for deployment'
@@ -83,4 +85,4 @@ EOF
 fi
 
 echo "TODO Add server IP address to inventory file"
-echo "TODO Edit app name & repo url in playbooks/vars/main.yml"
+echo "TODO Edit app name, app port & repo url in playbooks/vars/main.yml"
