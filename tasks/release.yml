@@ -1,7 +1,37 @@
 ---
-- name: "create release using exrm"
+- when: deploy_type == "restart"
+  name: stop app
+  monit: name="{{ app_name }}" state=stopped
+
+
+- when: deploy_type == "restart"
+  name: delete release
+  command: bash -lc "mix release.clean" chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+
+
+- name: "create release"
   command: bash -lc 'SERVER=1 mix release' chdir="{{ project_path }}"
   remote_user: "{{ deployer }}"
   environment:
     MIX_ENV: "{{ mix_env }}"
     PORT: "{{ app_port }}"
+
+
+- when: deploy_type == "restart"
+  name: start app
+  monit: name="{{ app_name }}" state=started
+
+
+- when: deploy_type == "upgrade"
+  name: get app version
+  command: bash -lc 'mix run -e \'IO.puts Mix.Project.config[:version]\'' chdir="{{ project_path }}"
+  register: app_version
+
+
+- when: deploy_type == "upgrade"
+  name: upgrade app
+  command: bash -lc 'PORT={{ app_port}} rel/{{ app_name }}/bin/{{ app_name }} upgrade "{{ app_version.stdout }}"' chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+  environment:
+    MIX_ENV: "{{ mix_env }}"

@@ -13,13 +13,5 @@
 - include: release.yml
 
 
-- when: deploy_type == "restart"
-  include: app-restart.yml
-
-
-- when: deploy_type == "upgrade"
-  include: app-upgrade.yml
-
-
 - name: start nginx using monit
   monit: name="nginx" state=started

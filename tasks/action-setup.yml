@@ -30,17 +30,9 @@
   include: frontend.yml
 
 
-- include: release.yml
 - include: nginx.yml
 - include: monit.yml
-
-
-- when: deploy_type == "restart"
-  include: app-restart.yml
-
-
-- when: deploy_type == "upgrade"
-  include: app-upgrade.yml
+- include: release.yml
 
 
 - name: start nginx using monit
