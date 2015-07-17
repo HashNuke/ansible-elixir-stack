@@ -35,8 +35,4 @@ $ ansible-playbook playbooks/remove-app.yml
 $ ansible-playbook playbooks/run-cmd.yml -e "command='foo bar'"
 ```
 
-For long-running tasks, use the below command
-
-```
-$ ansible-playbook playbooks/run-cmd-async.yml -e "command='foo bar'"
-```
+Ansible doesn't display the output when a task completes successfully. Same applies to the above command.
