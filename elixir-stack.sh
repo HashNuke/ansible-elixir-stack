@@ -47,12 +47,6 @@ app_port: 3001
 EOF
 
 
-cat > playbooks/templates/config.secret.exs.j2 <<EOF
----
-
-EOF
-
-
 # Check if SERVER=1 when starting release.
 # This way we can compile the release with auto-start server
 # But for all other purposes, can run mix tasks
