@@ -23,6 +23,8 @@ $ ansible-playbook playbooks/deploy.yml
 $ ansible-playbook playbooks/migrate.yml
 ```
 
+The ecto.migrate task is run as the deployer user, with the MIX_ENV specified in your configuration in playbooks/vars/main.yml.
+
 #### Remove app from the server
 
 ```
@@ -32,7 +34,7 @@ $ ansible-playbook playbooks/remove-app.yml
 #### Run command in the project's directory on the server
 
 ```
-$ ansible-playbook playbooks/run-cmd.yml -e "command='foo bar'"
+$ ansible-playbook playbooks/run-cmd.yml -e "cmd='foo bar'"
 ```
 
-Ansible doesn't display the output when a task completes successfully. Same applies to the above command.
+The command is run as the deployer user, with the MIX_ENV specified in your configuration in playbooks/vars/main.yml.

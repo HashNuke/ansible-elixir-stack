@@ -28,6 +28,18 @@ cat > playbooks/deploy.yml <<EOF
 EOF
 
 
+cat > playbooks/migrate.yml <<EOF
+---
+- hosts: app-servers
+  remote_user: root
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - {role: "HashNuke.elixir-stack", action: "migrate"}
+EOF
+
+
 cat > playbooks/remove-app.yml <<EOF
 ---
 - hosts: app-servers
