@@ -2,7 +2,7 @@
 
 Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixframework.org) apps to servers.
 
-**Docs**: [[Configuration](docs/configuration.md)], [[Hot code-reloading](docs/hot-code-reloading.md)], [[prod.secret.exs file](docs/prod-secret-file.md)]
+**Docs**: [[Configuration](docs/configuration.md)], [[Hot code-reloading](docs/hot-code-reloading.md)], [[prod.secret.exs file](docs/prod-secret-file.md)], [[Logs](docs/logs.md)]
 
 ## Features
 
