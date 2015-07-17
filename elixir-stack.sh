@@ -54,7 +54,6 @@ EOF
 # This way we can compile the release with auto-start server
 # But for all other purposes, can run mix tasks
 
-(
 grep -m 1 -nriq "{:phoenix" mix.exs
 if [ $? = 0 ]; then
   cat >> config/config.exs <<EOF
@@ -65,7 +64,6 @@ if System.get_env("SERVER") do
 end
 EOF
 fi
-)
 
 echo '*-*-*'
 echo 'Oolaa ~! your project has been setup for deployment'
