@@ -75,15 +75,6 @@ By default, on each deploy your app will be restarted. Setting it to `upgrade` w
 
 You can switch between restarts and upgrades anytime.
 
-#### git_versioning
-
-> **NOTE:** Read the documentation on [Hot code-reloading](hot-code-reloading.md) for whys & hows of this variable.
-
-Setting this to `True` will allow your app to be versioned using git commit SHAs.
-
-* Default: `False`
-* Possible values: `True`, `False`
-
 #### deployer
 
 The name of the user to create to run all your projects. Default is `deployer`.
@@ -186,3 +177,41 @@ If set to `True`, npm dependencies will be installed with `npm install --product
 Length of the secret key base. Can be set to any integer.
 
 * Default: `64`
+
+#### enable_mail_alerts
+
+Will send mail alerts when stuff goes down. If this is enabled, SMTP configuration needs to be provided.
+
+* Default: `False`
+* Possible values: `True`, `False`
+
+You could use GMail, [MailGun](http://mailgun.com), [Amazon SES](http://aws.amazon.com/ses/), [SendGrid](https://sendgrid.com) or anything else. Most providers have a free quota that should be sufficient for your hobby apps.
+
+#### smtp_host
+
+Set this to your SMTP host.
+
+Example values: `smtp.gmail.com`, `smtp.mailgun.org`
+
+#### smtp_port
+
+Set this to your host's SMTP port. For most servers, the default would work.
+
+* Default: `587`
+
+#### smtp_user
+
+Email address you want to send mails from.
+
+* Example values: `foo@example.com`, `foo@bar.example.com`
+
+#### smtp_password
+
+Password for the SMTP user account.
+
+#### smtp_use_tls
+
+Does your SMTP host use TLS? As a reference, set this to `True` for GMail & `False` for [MailGun](http://mailgun.com).
+
+* Default: `False`
+* Possible values: `True`, `False`
