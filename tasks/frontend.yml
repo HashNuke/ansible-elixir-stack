@@ -11,11 +11,6 @@
   set_fact: npm_install_options="--production"
 
 
-- when: npm_config_install_production == False
-  name: calculate npm install options
-  set_fact: npm_install_options=""
-
-
 - name: "fetch npm dependencies"
   command: bash -lc "npm install {{npm_install_options}}" chdir="{{ project_path }}/{{ frontend_dir }}"
   remote_user: "{{ deployer }}"
