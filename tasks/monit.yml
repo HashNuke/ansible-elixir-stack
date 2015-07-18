@@ -11,16 +11,17 @@
     - "allow localhost"
 
 
-- when: when enable_mail_alerts == True and smtp_use_tls == True
+- when: enable_mail_alerts == True and smtp_use_tls == True
   name: set tls_option
   set_fact: smtp_tls_option="using tlsv1"
 
-- when: when enable_mail_alerts == True and smtp_use_tls != True
+
+- when: enable_mail_alerts == True and smtp_use_tls != True
   name: set tls_option
   set_fact: smtp_tls_option=""
 
 
-- when: when enable_mail_alerts == True
+- when: enable_mail_alerts == True
   name: set mail server for notifications in monit
   lineinfile: dest=/etc/monit/monitrc line="{{ item }}"
   with_items:
