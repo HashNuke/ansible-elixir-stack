@@ -12,7 +12,6 @@ By default, apps are restarted when new versions are deployed. This is to make i
 
 For hot code-reloading, the app's version needs to be updated in `mix.exs` for every deploy. That can get repeatitive, since hobby projects are updated & deployed frequently. We've got a workaround for that. We'll use automatic versioning based on git commit SHAs. Technical details are explained in [this blog post](TODO).
 
-* Set `git_versioning` to `True` in your project's `playbooks/vars/main.yml` file.
 * Change the following in `mix.exs`
 
 ```elixir
