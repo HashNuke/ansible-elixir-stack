@@ -31,3 +31,11 @@ swap_size: 2097K
 npm_config_jobs: 1
 npm_config_install_production: False
 secret_key_base_length: 64
+
+enable_mail_alerts: False
+smtp_port: 587
+smtp_use_tls: False
+
+# PRIVATE
+smtp_tls_option: ""
+npm_install_options: ""
