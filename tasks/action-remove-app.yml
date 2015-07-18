@@ -1,7 +1,6 @@
 ---
 - name: stop app
-  #TODO use monit module when ansible 2.0 is released with bugfix
-  command: "monit stop {{app_name}}"
+  monit: name="{{ app_name }}" state=stopped
   ignore_errors: True
 
 
