@@ -25,13 +25,20 @@
 
 - when: deploy_type == "upgrade"
   name: get app version
-  command: bash -lc 'mix run -e \'IO.puts Mix.Project.config[:version]\'' chdir="{{ project_path }}"
+  command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]'" chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
   register: app_version
 
 
 - when: deploy_type == "upgrade"
+  name: set upgrade command
+  set_fact: upgrade_command='rel/{{ app_name }}/bin/{{ app_name }} upgrade "{{ app_version.stdout }}"'
+
+
+- when: deploy_type == "upgrade"
   name: upgrade app
-  command: bash -lc 'PORT={{ app_port}} rel/{{ app_name }}/bin/{{ app_name }} upgrade "{{ app_version.stdout }}"' chdir="{{ project_path }}"
+  command: bash -lc "{{ upgrade_command }}" chdir="{{ project_path }}"
   remote_user: "{{ deployer }}"
   environment:
     MIX_ENV: "{{ mix_env }}"
+    PORT: "{{ app_port }}"
