@@ -4,7 +4,7 @@ Variables are set in the `playbooks/vars/main.yml` file in your project. A few v
 
 ## Required config
 
-#### app_name
+##### app_name
 
 Name of your OTP app. This is the name of your project in `mix.exs` (the value of the `app` key in the `project` function).
 
@@ -26,7 +26,7 @@ defmodule Firebrick.Mixfile do
 
 > Do not use the hostname of your server as the app's name. Monit will have conflicts and error out.
 
-#### repo_url
+##### repo_url
 
 Git url of your project
 
@@ -34,13 +34,13 @@ Git url of your project
     * `https://example.com/foo/bar.git`
     * `foo@example.com:bar.git`
 
-#### app_port
+##### app_port
 
 Must be set to an integer. Port must not be used by any apps already on the same server.
 
 > Suggestion: Start somewhere at 3001 and keep incrementing it for every app you deploy. Easier to keep track.
 
-#### domains
+##### domains
 
 The domains/subdomains to use for your project. By default your project is accessible from the IP address. Using projects without domains isn't recommended since Nginx will only serve the first project for an IP address. If you intend to host multiple projects on a server, use domain or subdomain names.
 
