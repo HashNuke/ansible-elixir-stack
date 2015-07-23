@@ -1,5 +1,7 @@
 # Hot code-reloading
 
+> Temporarily broken. Waiting for [an issue](https://github.com/HashNuke/ansible-elixir-stack/issues/4) to be fixed/clarified
+
 By default, apps are restarted when new versions are deployed. This is to make it easy for people to deploy apps quickly with quick setup.
 
 ### To enable
