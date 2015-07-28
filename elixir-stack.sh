@@ -101,7 +101,7 @@ echo
 
 # Create .tool-versions file if not present
 
-if [ -z ./.tool-versions ]; then
+if [ ! -f ./.tool-versions ]; then
   cat > .tool-versions <<EOF
 erlang 18.0
 elixir 1.0.5
