@@ -27,6 +27,8 @@ $ ansible-galaxy install HashNuke.elixir-stack
 > If the above commands fail, try with `sudo`.
 > For Mac OS X, Ansible is also available on homebrew.
 
+Assuming your SSH key is called `id_rsa`, add your SSH key to ssh-agent using the command: `ssh-add ~/.ssh/id_rsa`
+
 ## Setup your project
 
 1.) Add [exrm](https://github.com/bitwalker/exrm) as your project's dependency in mix.exs
