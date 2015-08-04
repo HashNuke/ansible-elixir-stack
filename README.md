@@ -22,12 +22,14 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 ```sh
 $ pip install ansible
 $ ansible-galaxy install HashNuke.elixir-stack
+
+# assuming your SSH key is called `id_rsa`
+# run this everytime you start your computer
+$ ssh-add ~/.ssh/id_rsa
 ```
 
 > If the above commands fail, try with `sudo`.
 > For Mac OS X, Ansible is also available on homebrew.
-
-Assuming your SSH key is called `id_rsa`, add your SSH key to ssh-agent using the command: `ssh-add ~/.ssh/id_rsa`
 
 ## Setup your project
 
