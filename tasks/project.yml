@@ -63,6 +63,19 @@
   remote_user: "{{ deployer }}"
 
 
+- name: check if conform config exists
+  local_action: stat path="templates/{{ app_name }}.conf.j2"
+  register: conform_config_template
+
+
+- when: conform_config_template.stat.exists == True
+  name: add conform config from custom template provided
+  template:
+    src: "templates/{{ app_name }}.conf.j2"
+    dest: "{{ project_path }}/config/{{ app_name }}.conf"
+  remote_user: "{{ deployer }}"
+
+
 - name: install hex
   command: bash -lc "mix local.hex --force" chdir="{{ project_path }}"
   remote_user: "{{ deployer }}"
