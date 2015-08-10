@@ -1,6 +1,6 @@
 check process {{app_name}} MATCHING "{{app_name}}/releases"
-       start program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{app_name}}/bin/{{app_name}} start'"
-       stop program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{project_path}}/rel/{{app_name}}/bin/{{app_name}} stop'"
+       start program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{ deploy_to_path }}/bin/{{app_name}} start'"
+       stop program = "/bin/su - {{ deployer }} -c 'PORT={{ app_port }} {{ deploy_to_path }}/bin/{{app_name}} stop'"
        {% for alert_email in app_alert_emails %}
        alert {{ alert_email }}
        {% endfor %}

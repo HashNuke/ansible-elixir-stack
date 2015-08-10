@@ -36,6 +36,9 @@ enable_mail_alerts: False
 smtp_port: 587
 smtp_use_tls: False
 
+deploy_to_dir: "/srv/apps"
+deploy_to_path: "{{ deploy_to_dir }}/{{ app_name }}"
+
 # PRIVATE
 smtp_tls_option: ""
 npm_install_options: ""

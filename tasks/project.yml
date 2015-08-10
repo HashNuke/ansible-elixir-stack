@@ -92,3 +92,7 @@
   remote_user: "{{ deployer }}"
   environment:
     MIX_ENV: "{{ mix_env }}"
+
+
+- name: "create directory for running app"
+  file: path="{{ deploy_to_path }}" state="directory" owner={{ deployer }}
