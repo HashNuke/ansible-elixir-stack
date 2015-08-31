@@ -4,6 +4,8 @@ git_ref: "master"
 projects_dir: "/home/{{ deployer }}/projects"
 project_path: "{{ projects_dir }}/{{ app_name }}"
 
+deploy_dir: "/home/{{ deployer }}/srv"
+app_deploy_path: "{{ deploy_dir }}/{{ app_name }}"
 deploy_type: "restart"
 
 mix_env: "prod"
@@ -35,9 +37,6 @@ secret_key_base_length: 64
 enable_mail_alerts: False
 smtp_port: 587
 smtp_use_tls: False
-
-deploy_to_dir: "/srv/apps"
-deploy_to_path: "{{ deploy_to_dir }}/{{ app_name }}"
 
 # PRIVATE
 smtp_tls_option: ""
