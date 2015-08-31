@@ -95,4 +95,5 @@
 
 
 - name: "create directory for running app"
-  file: path="{{ deploy_to_path }}" state="directory" owner={{ deployer }}
+  file: path="{{ app_deploy_path }}" state="directory"
+  remote_user: "{{ deployer }}"
