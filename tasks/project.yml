@@ -95,5 +95,5 @@
 
 
 - name: "create directory for running app"
-  file: path="{{ app_deploy_path }}" state="directory"
+  file: path="{{ app_deploy_path }}" state="directory" recurse=yes
   remote_user: "{{ deployer }}"
