@@ -11,9 +11,10 @@
 
 
 - name: get app version
-  command: bash -lc "mix run -e 'IO.puts \"RELEASE_VERSION=\" <> Mix.Project.config[:version]' | grep RELEASE_VERSION | sed 's/RELEASE_VERSION=//'" chdir="{{ project_path }}"
+  command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]'" chdir="{{ project_path }}"
   remote_user: "{{ deployer }}"
   register: app_version_result
+
 - set_fact: app_version="{{ app_version_result.stdout }}"
 
 
@@ -25,8 +26,9 @@
     PORT: "{{ app_port }}"
 
 
-- name: "extract release in running app dir"
-  unarchive: src="{{ project_path }}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name}}.tar.gz" dest="{{ deploy_to_path }}" owner="{{ deployer }}" copy=no
+- name: "extract release in app_deploy_path"
+  unarchive: src="{{ project_path }}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name }}.tar.gz" dest="{{ app_deploy_path }}" copy=no
+  remote_user: "{{ deployer }}"
 
 
 - when: deploy_type == "restart"
@@ -36,23 +38,24 @@
 
 - when: deploy_type == "upgrade"
   name: "create directory for new release version"
-  file: path="{{ deploy_to_path }}/releases/{{ app_version }}" state="directory" owner={{ deployer }}
+  file: path="{{ app_deploy_path }}/releases/{{ app_version }}" state="directory"
+  remote_user: "{{ deployer }}"
 
 
 - when: deploy_type == "upgrade"
   name: "copy release to running app dir"
-  command: cp {{ project_path }}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name}}.tar.gz {{ deploy_to_path }}/releases/{{ app_version }}
+  command: cp {{ project_path }}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name}}.tar.gz {{ app_deploy_path }}/releases/{{ app_version }}
   remote_user: "{{ deployer }}"
 
 
 - when: deploy_type == "upgrade"
   name: set upgrade command
-  set_fact: upgrade_command='bin/{{ app_name }} upgrade "{{ app_version }}"'
+  set_fact: upgrade_command='{{ app_deploy_path }}/bin/{{ app_name }} upgrade "{{ app_version }}"'
 
 
 - when: deploy_type == "upgrade"
   name: upgrade app
-  command: bash -lc "{{ upgrade_command }}" chdir="{{ deploy_to_path }}"
+  command: bash -lc "{{ upgrade_command }}"
   remote_user: "{{ deployer }}"
   environment:
     MIX_ENV: "{{ mix_env }}"
