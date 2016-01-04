@@ -10,8 +10,8 @@
   remote_user: "{{ deployer }}"
 
 
-- name: "create release"
-  command: bash -lc 'SERVER=1 mix release' chdir="{{ project_path }}"
+- name: "compile and release"
+  command: bash -lc 'SERVER=1 mix do compile, release' chdir="{{ project_path }}"
   remote_user: "{{ deployer }}"
   environment:
     MIX_ENV: "{{ mix_env }}"
