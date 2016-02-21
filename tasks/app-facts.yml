@@ -9,7 +9,7 @@
 
 
 - name: detect endpoint module
-  command: "grep -m 1 -o '[[:alnum:]]*.Endpoint'" {{ project_path }}/config/dev.exs
+  command: grep -m 1 -o '[[:alnum:]]*.Endpoint' {{ project_path }}/config/dev.exs
   register: grep_endpoint_module
 
 
