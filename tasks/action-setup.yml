@@ -17,7 +17,31 @@
 - name: "install pip"
   command: "python /tmp/get-pip.py"
 
-- include: deployer-user.yml
+- name: "create deployer user"
+  user: name="{{deployer}}" shell=/bin/bash
+
+
+- name: "read authorized keys from root user"
+  command: "cat ~/.ssh/authorized_keys"
+  register: "root_authorized_keys"
+
+
+- name: "create .ssh dir for deployer"
+  file: path="/home/{{ deployer }}/.ssh" state=directory
+
+
+- name: "copy authorized keys to deployer user"
+  shell: "echo '{{root_authorized_keys.stdout}}' > /home/{{deployer}}/.ssh/authorized_keys"
+
+
+- name: "chown the authorized_keys file"
+  file: path="/home/{{deployer}}/.ssh" recurse=yes mode=0700 owner="{{ deployer }}"
+
+
+- name: "ensure projects directory"
+  file: path="~/projects" state=directory
+  remote_user: "{{ deployer }}"
+
 
 - name: "install asdf"
   git: repo="https://github.com/HashNuke/asdf.git" dest="~/.asdf" update=yes
