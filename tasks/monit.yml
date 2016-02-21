@@ -23,9 +23,9 @@
 
 - when: enable_mail_alerts == True
   name: set mail server for notifications in monit
-  lineinfile: dest=/etc/monit/monitrc line="{{ item }}"
-  with_items:
-    - "set mailserver {{ smtp_host }} port {{ smtp_port }} username {{ smtp_user }} password {{ smtp_password }} {{ smtp_tls_option }} with timeout 30 seconds"
+  lineinfile:
+    dest: /etc/monit/monitrc
+    line: set mailserver {{ smtp_host }} port {{ smtp_port }} username {{ smtp_user }} password {{ smtp_password }} {{ smtp_tls_option }} with timeout 30 seconds"
 
 
 - name: start monit & mark to be started on system reboots
