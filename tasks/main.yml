@@ -5,8 +5,11 @@
 - when: action == "setup"
   include: action-setup.yml
 
-- when: action == "deploy"
-  include: action-deploy.yml
+- when: (action == "deploy" and deploy_type == "restart")
+  include: action-deploy-type-restart.yml
+
+- when: (action == "deploy" and deploy_type == "upgrade")
+  include: action-deploy-type-upgrade.yml
 
 - when: action == "migrate"
   include: action-migrate.yml
