@@ -21,7 +21,6 @@
 
 - include: app-facts.yml
 
-
 - when: setup_postgres == True
   include: postgres.yml
 
@@ -32,10 +31,11 @@
 - when: build_frontend == True
   include: frontend.yml
 
-
 - include: nginx.yml
 - include: monit.yml
 
+- name: start nginx using monit
+  monit: name="nginx" state=started
 
 - when: (action == "deploy" and deploy_type == "restart")
   include: action-deploy-type-restart.yml
@@ -44,9 +44,5 @@
   include: action-deploy-type-upgrade.yml
 
 
-- name: start nginx using monit
-  monit: name="nginx" state=started
-
-
 - name: reload nginx config
-  service: name=nginx state=reloaded
+  command: "nginx -s reload"
