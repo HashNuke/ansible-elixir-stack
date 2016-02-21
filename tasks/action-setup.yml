@@ -10,16 +10,37 @@
   include: create-swap-file.yml
 
 
-- include: pip.yml
+- name: "download pip installer script"
+  get_url: url="https://bootstrap.pypa.io/get-pip.py" dest="/tmp/get-pip.py" mode=0777
+
+
+- name: "install pip"
+  command: "python /tmp/get-pip.py"
+
 - include: deployer-user.yml
-- include: asdf.yml
+
+- name: "install asdf"
+  git: repo="https://github.com/HashNuke/asdf.git" dest="~/.asdf" update=yes
+  remote_user: "{{deployer}}"
+
+
+- name: "source asdf in bashrc"
+  lineinfile: dest="~/.bash_profile" create=yes line="source ~/.asdf/asdf.sh"
+  remote_user: "{{deployer}}"
+
+
+- name: "add asdf plugins"
+  command: "bash -lc 'asdf plugin-add {{item}} https://github.com/HashNuke/asdf-{{item}}.git'"
+  with_items:
+    - nodejs
+    - erlang
+    - elixir
+  remote_user: "{{deployer}}"
 
 
 - when: setup_postgres == True
   include: postgres-facts.yml
 
-
-- include: app-facts.yml
 
 - when: setup_postgres == True
   include: postgres.yml
@@ -31,8 +52,87 @@
 - when: build_frontend == True
   include: frontend.yml
 
-- include: nginx.yml
-- include: monit.yml
+
+- name: add nginx pkg repo
+  apt_repository: repo="ppa:nginx/stable"
+
+
+- name: install nginx
+  apt: name=nginx update_cache=yes state=present
+
+
+- name: "disable nginx and don't start service on reboot"
+  service: name=nginx enabled=no state=stopped
+
+
+- name: remove nginx default configs
+  file: name="{{ item }}" state=absent
+  with_items:
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+
+
+- name: add nginx config for elixir app
+  template:
+    src: app.nginx.j2
+    dest: "/etc/nginx/sites-available/{{ app_name }}.nginx"
+
+
+- name: enable elixir app to be served by nginx
+  file:
+    src: "/etc/nginx/sites-available/{{ app_name }}.nginx"
+    dest: "/etc/nginx/sites-enabled/{{ app_name }}.nginx"
+    state: link
+
+
+# monit
+- name: install monit
+  apt: name=monit update_cache=yes
+
+
+- name: allow localhost access in monit config
+  lineinfile: dest=/etc/monit/monitrc line="{{ item }}"
+  with_items:
+    - "set httpd port 2812 and"
+    - "use address localhost"
+    - "allow localhost"
+
+
+- when: enable_mail_alerts == True and smtp_use_tls == True
+  name: set tls_option
+  set_fact: smtp_tls_option="using tlsv1"
+
+
+- when: enable_mail_alerts == True and smtp_use_tls != True
+  name: set tls_option
+  set_fact: smtp_tls_option=""
+
+
+- when: enable_mail_alerts == True
+  name: set mail server for notifications in monit
+  lineinfile:
+    dest: /etc/monit/monitrc
+    line: set mailserver {{ smtp_host }} port {{ smtp_port }} username {{ smtp_user }} password {{ smtp_password }} {{ smtp_tls_option }} with timeout 30 seconds"
+
+
+- name: start monit & mark to be started on system reboots
+  service: name=monit state=started enabled=yes
+
+
+- name: add monit config for elixir app
+  template:
+    src: app.monit.j2
+    dest: "/etc/monit/conf.d/{{ app_name }}.monit"
+
+
+- name: add monit config for nginx
+  template:
+    src: nginx.monit.j2
+    dest: "/etc/monit/conf.d/nginx.monit"
+
+- name: reload monit
+  service: name=monit state=reloaded
+
 
 - name: start nginx using monit
   monit: name="nginx" state=started
