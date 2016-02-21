@@ -1,0 +1,37 @@
+---
+- name: "compile and release"
+  command: bash -lc 'SERVER=1 mix do compile, release' chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+  environment:
+    MIX_ENV: "{{ mix_env }}"
+    PORT: "{{ app_port }}"
+
+
+- name: get app version
+  command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]'" chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+  register: app_version_result
+
+
+- name: set app version
+  set_fact: app_version="{{ app_version_result.stdout }}"
+
+
+- name: "create upgrade directory"
+  file: path="{{project_path}}/.current-release/releases/{{ app_version }}" state=directory
+
+
+- name: "copy release file"
+  command: "cp {{project_path}}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name }}.tar.gz {{project_path}}/.current-release/releases/{{ app_version }}/"
+
+
+- name: set upgrade command
+  set_fact: upgrade_command="bin/{{ app_name }} upgrade '{{ app_version }}'"
+
+
+- name: upgrade app
+  command: bash -lc "{{ upgrade_command }}" chdir="{{ project_path }}/.current-release"
+  remote_user: "{{ deployer }}"
+  environment:
+    MIX_ENV: "{{ mix_env }}"
+    PORT: "{{ app_port }}"
