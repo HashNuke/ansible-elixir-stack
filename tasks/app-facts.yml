@@ -11,6 +11,7 @@
 - name: detect endpoint module
   command: grep -m 1 -o '[[:alnum:]]*.Endpoint' {{ project_path }}/config/dev.exs
   register: grep_endpoint_module
+  ignore_errors: true
 
 
 - name: set app_endpoint_module fact
@@ -20,6 +21,7 @@
 - name: detect repo module
   command: grep -m 1 -o '[[:alnum:]]*.Repo' {{ project_path }}/config/dev.exs
   register: grep_repo_module
+  ignore_errors: true
 
 
 - name: set app_repo_module fact
