@@ -8,7 +8,7 @@
 
 
 - name: get app version
-  command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]'" chdir="{{ project_path }}"
+  command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]' | sed -e '$!d'" chdir="{{ project_path }}"
   remote_user: "{{ deployer }}"
   register: app_version_result
 
