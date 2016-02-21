@@ -160,23 +160,11 @@
     line: set mailserver {{ smtp_host }} port {{ smtp_port }} username {{ smtp_user }} password {{ smtp_password }} {{ smtp_tls_option }} with timeout 30 seconds"
 
 
-- name: add monit config for elixir app
-  template:
-    src: app.monit.j2
-    dest: "/etc/monit/conf.d/{{ app_name }}.monit"
-
-
 - name: add monit config for nginx
   template:
     src: nginx.monit.j2
     dest: "/etc/monit/conf.d/nginx.monit"
 
-
-- when: (action == "deploy" and deploy_type == "restart")
-  include: action-deploy-type-restart.yml
-
-- when: (action == "deploy" and deploy_type == "upgrade")
-  include: action-deploy-type-upgrade.yml
 
 - name: start monit & mark to be started on system reboots
   service: name=monit state=started enabled=yes
@@ -184,6 +172,25 @@
 
 - name: start nginx using monit
   monit: name="nginx" state=started
+
+
+- name: add monit config for elixir app
+  template:
+    src: app.monit.j2
+    dest: "/etc/monit/conf.d/{{ app_name }}.monit"
+
+
+- when: (action == "deploy" and deploy_type == "restart")
+  include: action-deploy-type-restart.yml
+
+
+- when: (action == "deploy" and deploy_type == "upgrade")
+  include: action-deploy-type-upgrade.yml
+
+
+- name: "reload monit"
+  command: "monit reload"
+
 
 - name: reload nginx config
   command: "nginx -s reload"
