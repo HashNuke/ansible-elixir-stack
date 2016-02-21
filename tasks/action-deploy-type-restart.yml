@@ -16,6 +16,16 @@
     PORT: "{{ app_port }}"
 
 
+- name: get app version
+  command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]' | sed -e '$!d'" chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+  register: app_version_result
+
+
+- name: set app version
+  set_fact: app_version="{{ app_version_result.stdout }}"
+
+
 - name: "create .current-release dir"
   file:
     path: "{{project_path}}/.current-release"
@@ -30,7 +40,10 @@
 
 
 - name: "untar release"
-  command: "tar -xf /tmp/test.tar.gz" chdir="{{project_path}}/.current-release"
+  command: "tar -xf {{ app_name }}.tar.gz"
+  args:
+    chdir: "{{project_path}}/.current-release"
+  remote_user: "{{ deployer }}"
 
 
 - name: start app
