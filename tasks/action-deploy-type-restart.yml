@@ -16,5 +16,22 @@
     PORT: "{{ app_port }}"
 
 
+- name: "create .current-release dir"
+  file:
+    path: "{{project_path}}/.current-release"
+    state: directory
+    recurse: yes
+  remote_user: "{{ deployer }}"
+
+
+- name: "copy release"
+  command: "cp {{ project_path }}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name }}.tar.gz {{ project_path }}/.current-release/"
+  remote_user: "{{ deployer }}"
+
+
+- name: "untar release"
+  command: "tar -xf /tmp/test.tar.gz" chdir="{{project_path}}/.current-release"
+
+
 - name: start app
   monit: name="{{ app_name }}" state=started

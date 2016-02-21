@@ -18,7 +18,10 @@
 
 
 - name: "create upgrade directory"
-  file: path="{{project_path}}/.current-release/releases/{{ app_version }}" state=directory
+  file:
+    path: "{{project_path}}/.current-release/releases/{{ app_version }}"
+    state: directory
+    recurse: yes
   remote_user: "{{ deployer }}"
 
 
