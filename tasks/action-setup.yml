@@ -19,6 +19,9 @@
   include: postgres-facts.yml
 
 
+- include: app-facts.yml
+
+
 - when: setup_postgres == True
   include: postgres.yml
 
@@ -32,7 +35,13 @@
 
 - include: nginx.yml
 - include: monit.yml
-- include: release.yml
+
+
+- when: (action == "deploy" and deploy_type == "restart")
+  include: action-deploy-type-restart.yml
+
+- when: (action == "deploy" and deploy_type == "upgrade")
+  include: action-deploy-type-upgrade.yml
 
 
 - name: start nginx using monit
