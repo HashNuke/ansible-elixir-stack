@@ -19,10 +19,12 @@
 
 - name: "create upgrade directory"
   file: path="{{project_path}}/.current-release/releases/{{ app_version }}" state=directory
+  remote_user: "{{ deployer }}"
 
 
 - name: "copy release file"
   command: "cp {{project_path}}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name }}.tar.gz {{project_path}}/.current-release/releases/{{ app_version }}/"
+  remote_user: "{{ deployer }}"
 
 
 - name: set upgrade command

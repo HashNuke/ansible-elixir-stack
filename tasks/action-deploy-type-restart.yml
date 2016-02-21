@@ -1,0 +1,20 @@
+---
+- name: stop app
+  monit: name="{{ app_name }}" state=stopped
+
+
+- name: delete if release exists
+  command: bash -lc "mix release.clean" chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+
+
+- name: "compile and release"
+  command: bash -lc 'SERVER=1 mix do compile, release' chdir="{{ project_path }}"
+  remote_user: "{{ deployer }}"
+  environment:
+    MIX_ENV: "{{ mix_env }}"
+    PORT: "{{ app_port }}"
+
+
+- name: start app
+  monit: name="{{ app_name }}" state=started
