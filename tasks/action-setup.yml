@@ -26,6 +26,7 @@
     - libtool
     - nginx
     - unixodbc-dev
+    - monit
 
 
 - name: should have credentials dir
@@ -47,6 +48,7 @@
 
 - name: "install pip"
   command: "python /tmp/get-pip.py"
+
 
 - name: "create deployer user"
   user: name="{{deployer}}" shell=/bin/bash
@@ -108,9 +110,6 @@
   include: frontend.yml
 
 
-
-
-
 - name: "disable nginx and don't start service on reboot"
   service: name=nginx enabled=no state=stopped
 
@@ -136,10 +135,6 @@
 
 
 # monit
-- name: install monit
-  apt: name=monit update_cache=yes
-
-
 - name: allow localhost access in monit config
   lineinfile: dest=/etc/monit/monitrc line="{{ item }}"
   with_items:
@@ -165,10 +160,6 @@
     line: set mailserver {{ smtp_host }} port {{ smtp_port }} username {{ smtp_user }} password {{ smtp_password }} {{ smtp_tls_option }} with timeout 30 seconds"
 
 
-- name: start monit & mark to be started on system reboots
-  service: name=monit state=started enabled=yes
-
-
 - name: add monit config for elixir app
   template:
     src: app.monit.j2
@@ -180,12 +171,6 @@
     src: nginx.monit.j2
     dest: "/etc/monit/conf.d/nginx.monit"
 
-- name: reload monit
-  service: name=monit state=reloaded
-
-
-- name: start nginx using monit
-  monit: name="nginx" state=started
 
 - when: (action == "deploy" and deploy_type == "restart")
   include: action-deploy-type-restart.yml
@@ -193,6 +178,12 @@
 - when: (action == "deploy" and deploy_type == "upgrade")
   include: action-deploy-type-upgrade.yml
 
+- name: start monit & mark to be started on system reboots
+  service: name=monit state=started enabled=yes
+
+
+- name: start nginx using monit
+  monit: name="nginx" state=started
 
 - name: reload nginx config
   command: "nginx -s reload"
