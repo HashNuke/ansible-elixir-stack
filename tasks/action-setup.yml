@@ -170,27 +170,25 @@
   service: name=monit state=started enabled=yes
 
 
-- name: start nginx using monit
-  monit: name="nginx" state=started
-
-
 - name: add monit config for elixir app
   template:
     src: app.monit.j2
     dest: "/etc/monit/conf.d/{{ app_name }}.monit"
 
 
-- when: (action == "deploy" and deploy_type == "restart")
+- when: deploy_type == "restart"
   include: action-deploy-type-restart.yml
 
 
-- when: (action == "deploy" and deploy_type == "upgrade")
+- when: deploy_type == "upgrade"
   include: action-deploy-type-upgrade.yml
 
 
 - name: "reload monit"
   command: "monit reload"
 
+- name: start nginx
+  monit: name="nginx" state=started
 
 - name: reload nginx config
   command: "nginx -s reload"
