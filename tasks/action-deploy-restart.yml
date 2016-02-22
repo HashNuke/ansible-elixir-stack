@@ -25,6 +25,7 @@
 - name: set app version
   set_fact: app_version="{{ app_version_result.stdout }}"
 
+- debug: msg="{{ app_version }}"
 
 - name: "create .current-release dir"
   file:
@@ -40,9 +41,11 @@
 
 
 - name: "untar release"
-  command: "tar -xf {{ app_name }}.tar.gz"
-  args:
-    chdir: "{{project_path}}/.current-release"
+  unarchive:
+    src: "{{project_path}}/.current-release/{{ app_name }}.tar.gz"
+    dest: "{{project_path}}/.current-release"
+    copy: no
+    owner: "{{ deployer }}"
   remote_user: "{{ deployer }}"
 
 
