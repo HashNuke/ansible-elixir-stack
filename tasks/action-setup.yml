@@ -177,11 +177,11 @@
 
 
 - when: deploy_type == "restart"
-  include: action-deploy-type-restart.yml
+  include: action-deploy-restart.yml
 
 
 - when: deploy_type == "upgrade"
-  include: action-deploy-type-upgrade.yml
+  include: action-deploy-upgrade.yml
 
 
 - name: "reload monit"

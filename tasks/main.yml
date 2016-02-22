@@ -6,10 +6,10 @@
   include: action-setup.yml
 
 - when: (action == "deploy" and deploy_type == "restart")
-  include: action-deploy-type-restart.yml
+  include: action-deploy-restart.yml
 
 - when: (action == "deploy" and deploy_type == "upgrade")
-  include: action-deploy-type-upgrade.yml
+  include: action-deploy-upgrade.yml
 
 - when: action == "migrate"
   include: action-migrate.yml
