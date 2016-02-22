@@ -1,6 +1,4 @@
 ---
-- include: app-facts.yml
-
 - when: setup_postgres == True
   include: postgres-facts.yml
 
@@ -12,12 +10,12 @@
   include: frontend.yml
 
 
-- when: (action == "deploy" and deploy_type == "restart")
-  include: action-deploy-type-restart.yml
+- when: deploy_type == "restart"
+  include: action-deploy-restart.yml
 
 
-- when: (action == "deploy" and deploy_type == "upgrade")
-  include: action-deploy-type-upgrade.yml
+- when: deploy_type == "upgrade"
+  include: action-deploy-upgrade.yml
 
 
 - name: start nginx using monit
