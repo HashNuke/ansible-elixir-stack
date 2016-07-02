@@ -1,26 +1,106 @@
 ---
-git_ref: "master"
 
+############################
+#      Server options      #
+############################
+
+# The user to deploy projects as
+# Will create this user if it doesn't exist
+deployer: deployer
+
+
+# Directory where all the projects will reside
 projects_dir: "/home/{{ deployer }}/projects"
+
+
+# Each project's path
 project_path: "{{ projects_dir }}/{{ app_name }}"
 
+
+############################
+#     Project options      #
+############################
+
+# The git branch or commit sha to deploy
+git_ref: "master"
+
+
+# Deploy type: "restart" or "upgrade"
 deploy_type: "restart"
 
-mix_env: "prod"
-setup_postgres: True
 
+# MIX_ENV to run project as
+mix_env: "prod"
+
+# List the domains to serve the app under
+domains: []
+
+# Length of secret key base to generate for the app
+secret_key_base_length: 64
+
+
+############################
+#         Database         #
+############################
+
+# If postgres is "local", then will setup database on server
+# If postgres is "remote", then will only install postgres client libs
+postgres_install: "local"
+
+
+############################
+#  Frontend & npm options  #
+############################
+
+# If set to False, frontend won't be built
+# All options beyond this are not used
 build_frontend: True
 frontend_dir: ""
 frontend_build_command: "$(npm bin)/brunch build --production"
+
+# Command to run after building the frontend
 post_frontend_build: "mix phoenix.digest"
 
-deployer: deployer
+# npm config options
+npm_config_jobs: 1
 
-domains: []
+# If true, this will install only production npm packages
+# equivalent of running "npm install --production"
+npm_config_install_production: False
+
+
+#######################
+#        Monit        #
+#######################
+
+# Should I send email alerts?
+# If false, then all following options will not be used
+enable_mail_alerts: False
+
+
+# SMT defaults
+smtp_port: 587
+smtp_use_tls: False
+
+
+# Whom to mail if nginx goes down?
 app_alert_emails: []
+
+
+# Whom to mail if the app goes down?
 nginx_alert_emails: []
 
+
+############################################
+#                Swap space                #
+#  Some nodejs packages on small servers   #
+#  require swap space in order to compile  #
+############################################
+
+
+# Won't create swap if not set to True
 create_swap_file: True
+
 
 # swap size in 1kb blocks
 # we'll set the default at around 2gb
@@ -28,14 +108,7 @@ create_swap_file: True
 # which is approximately 2097 thousand ( == 2097k)
 swap_size: 2097K
 
-npm_config_jobs: 1
-npm_config_install_production: False
-secret_key_base_length: 64
 
-enable_mail_alerts: False
-smtp_port: 587
-smtp_use_tls: False
-
-# PRIVATE
+# PRIVATE. Don't bother setting or changing
 smtp_tls_option: ""
 npm_install_options: ""
