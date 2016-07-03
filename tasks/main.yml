@@ -1,4 +1,10 @@
 ---
+
+- name: "Set primary_user_sudo to True if non-root user"
+  set_fact: primary_user_sudo=True
+  when: primary_user != "root"
+
+
 - when: action == "remove-app"
   include: action-remove-app.yml
 
