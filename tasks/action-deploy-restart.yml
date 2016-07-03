@@ -1,52 +1,71 @@
 ---
-- name: stop app
-  monit: name="{{ app_name }}" state=stopped
-
-
-- name: delete if release exists
+- name: delete release
   command: bash -lc "mix release.clean" chdir="{{ project_path }}"
-  remote_user: "{{ deployer }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
 
 
 - name: "compile and release"
-  command: bash -lc 'SERVER=1 mix do compile, release' chdir="{{ project_path }}"
-  remote_user: "{{ deployer }}"
+  command: bash -lc 'mix do compile, release' chdir="{{ project_path }}"
   environment:
     MIX_ENV: "{{ mix_env }}"
     PORT: "{{ app_port }}"
+    SERVER: 1
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
 
 
-- name: get app version
-  command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]' | sed -e '$!d'" chdir="{{ project_path }}"
-  remote_user: "{{ deployer }}"
-  register: app_version_result
+- name: stop app
+  monit: name="{{ app_name }}" state=stopped
+  become: "{{primary_user_sudo}}"
 
 
-- name: set app version
-  set_fact: app_version="{{ app_version_result.stdout }}"
+- name: start app
+  monit: name="{{ app_name }}" state=started
+  become: "{{primary_user_sudo}}"
 
-- debug: msg="{{ app_version }}"
+###################
 
-- name: "create .current-release dir"
+- name: "delete .current-release dir"
+  file:
+    path: "{{project_path}}/.current-release"
+    state: absent
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
+
+
+- name: "create fresh .current-release dir"
   file:
     path: "{{project_path}}/.current-release"
     state: directory
     recurse: yes
-  remote_user: "{{ deployer }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
+
+
+- name: "set compiled release tar path"
+  set_fact: compiled_release_tar_path="{{ project_path }}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name }}.tar.gz"
+
+
+- name: "set current release tar path"
+  set_fact: current_release_tar_path="{{ project_path }}/.current-release/{{app_name}}-{{app_version}}.tar.gz"
 
 
 - name: "copy release"
-  command: "cp {{ project_path }}/rel/{{ app_name }}/releases/{{ app_version }}/{{ app_name }}.tar.gz {{ project_path }}/.current-release/"
-  remote_user: "{{ deployer }}"
+  command: "cp {{compiled_release_tar_path}} {{current_release_tar_path}}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
 
 
 - name: "untar release"
   unarchive:
-    src: "{{project_path}}/.current-release/{{ app_name }}.tar.gz"
+    src: "{{current_release_tar_path}}"
     dest: "{{project_path}}/.current-release"
+    mode: 0777
     copy: no
-    owner: "{{ deployer }}"
-  remote_user: "{{ deployer }}"
+    owner: "{{ deploy_as }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
 
 
 - name: start app
