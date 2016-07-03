@@ -9,7 +9,7 @@ Tool to deploy [Elixir](http://elixir-lang.org/) & [Phoenix](http://www.phoenixf
 * **1-command setup & deploys**
 * Ships with Postgres support
 * Automatically creates a [`prod.secret.exs`](docs/prod-secret-file.md) file
-* Deploy multiple hobby apps on a $5 DigitalOcean server
+* Deploy multiple hobby apps on a $5 DigitalOcean server or AWS EC2
 * Custom domains
 * Hot code-reloading using [exrm](https://github.com/bitwalker/exrm)
 * Monitoring & automatic restarts using `monit`
