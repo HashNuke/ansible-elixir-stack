@@ -1,9 +1,11 @@
 ---
 - name: add nginx pkg repo
   apt_repository: repo="ppa:nginx/stable"
+  become: "{{primary_user_sudo}}"
 
 
 - name: "install system packages"
+  become: "{{primary_user_sudo}}"
   apt: name="{{ item }}" update_cache=yes state=present
   with_items:
     - gcc
@@ -29,13 +31,16 @@
     - monit
 
 
+# Directory to store credentials
 - name: should have credentials dir
-  file: path=~/credentials state=directory
+  file: path="{{credentials_dir}}" state=directory recurse=True
+  become: "{{primary_user_sudo}}"
 
 
 - name: "check for swap file path"
   stat: path="/swap"
   register: swap_info
+  become: "{{primary_user_sudo}}"
 
 
 - when: create_swap_file == True and swap_info.stat.exists == False
@@ -44,46 +49,56 @@
 
 - name: "download pip installer script"
   get_url: url="https://bootstrap.pypa.io/get-pip.py" dest="/tmp/get-pip.py" mode=0777
+  become: "{{primary_user_sudo}}"
 
 
 - name: "install pip"
   command: "python /tmp/get-pip.py"
+  become: "{{primary_user_sudo}}"
+
+
+- when: create_deploy_user == True
+  include: deploy-user.yml
 
 
 - name: "create deployer user"
-  user: name="{{deployer}}" shell=/bin/bash
+  user: name="{{deploy_as}}" shell=/bin/bash
+  become: "{{primary_user_sudo}}"
 
 
 - name: "read authorized keys from root user"
   command: "cat ~/.ssh/authorized_keys"
-  register: "root_authorized_keys"
+  register: "primary_user_authorized_keys"
 
 
-- name: "create .ssh dir for deployer"
-  file: path="/home/{{ deployer }}/.ssh" state=directory
+- name: "create .ssh dir for deploy user"
+  file: path="/home/{{ deploy_as }}/.ssh" state=directory
+  become: "{{primary_user_sudo}}"
 
 
 - name: "copy authorized keys to deployer user"
-  shell: "echo '{{root_authorized_keys.stdout}}' > /home/{{deployer}}/.ssh/authorized_keys"
-
+  shell: "echo '{{primary_user_authorized_keys.stdout}}' > /home/{{deploy_as}}/.ssh/authorized_keys"
+  become: "{{primary_user_sudo}}"
 
 - name: "chown the authorized_keys file"
-  file: path="/home/{{deployer}}/.ssh" recurse=yes mode=0700 owner="{{ deployer }}"
+  file: path="/home/{{deploy_as}}/.ssh" recurse=yes mode=0700 owner="{{ deploy_as }}"
+  become: "{{primary_user_sudo}}"
 
 
 - name: "ensure projects directory"
-  file: path="~/projects" state=directory
-  remote_user: "{{ deployer }}"
+  file: path="~/projects" state=directory owner="{{ deploy_as }}"
 
 
 - name: "install asdf"
-  git: repo="https://github.com/HashNuke/asdf.git" dest="~/.asdf" update=yes
-  remote_user: "{{deployer}}"
+  git: repo="https://github.com/asdf-vm/asdf.git" dest="~/.asdf" update=yes
+  become_user: "{{deploy_as}}"
+  become: "{{primary_user_sudo}}"
 
 
 - name: "source asdf in bashrc"
   lineinfile: dest="~/.bash_profile" create=yes line="source ~/.asdf/asdf.sh"
-  remote_user: "{{deployer}}"
+  become_user: "{{deploy_as}}"
+  become: "{{primary_user_sudo}}"
 
 
 - name: "add asdf plugins"
@@ -92,14 +107,15 @@
     - nodejs
     - erlang
     - elixir
-  remote_user: "{{deployer}}"
+  become_user: "{{deploy_as}}"
+  become: "{{primary_user_sudo}}"
 
 
-- when: setup_postgres == True
+- when: postgres_install == "local"
   include: postgres-facts.yml
 
 
-- when: setup_postgres == True
+- when: postgres_install != False
   include: postgres.yml
 
 
@@ -112,6 +128,7 @@
 
 - name: "disable nginx and don't start service on reboot"
   service: name=nginx enabled=no state=stopped
+  become: "{{primary_user_sudo}}"
 
 
 - name: remove nginx default configs
@@ -119,12 +136,14 @@
   with_items:
     - /etc/nginx/sites-available/default
     - /etc/nginx/sites-enabled/default
+  become: "{{primary_user_sudo}}"
 
 
 - name: add nginx config for elixir app
   template:
     src: app.nginx.j2
     dest: "/etc/nginx/sites-available/{{ app_name }}.nginx"
+  become: "{{primary_user_sudo}}"
 
 
 - name: enable elixir app to be served by nginx
@@ -132,50 +151,57 @@
     src: "/etc/nginx/sites-available/{{ app_name }}.nginx"
     dest: "/etc/nginx/sites-enabled/{{ app_name }}.nginx"
     state: link
+  become: "{{primary_user_sudo}}"
 
 
 # monit
 - name: allow localhost access in monit config
-  lineinfile: dest=/etc/monit/monitrc line="{{ item }}"
-  with_items:
-    - "set httpd port 2812 and"
-    - "use address localhost"
-    - "allow localhost"
+  template:
+    src: monit-http-access.monit.j2
+    dest: "/etc/monit/conf.d/monit-http-config.monit"
+  become: "{{primary_user_sudo}}"
 
 
 - when: enable_mail_alerts == True and smtp_use_tls == True
   name: set tls_option
   set_fact: smtp_tls_option="using tlsv1"
+  become: "{{primary_user_sudo}}"
 
 
 - when: enable_mail_alerts == True and smtp_use_tls != True
   name: set tls_option
   set_fact: smtp_tls_option=""
+  become: "{{primary_user_sudo}}"
 
 
 - when: enable_mail_alerts == True
   name: set mail server for notifications in monit
-  lineinfile:
-    dest: /etc/monit/monitrc
-    line: set mailserver {{ smtp_host }} port {{ smtp_port }} username {{ smtp_user }} password {{ smtp_password }} {{ smtp_tls_option }} with timeout 30 seconds"
+  template:
+    src: monit-mail-config.monit.j2
+    dest: "/etc/monit/conf.d/monit-mail-config.monit"
+  become: "{{primary_user_sudo}}"
 
 
 - name: add monit config for nginx
   template:
     src: nginx.monit.j2
     dest: "/etc/monit/conf.d/nginx.monit"
+  become: "{{primary_user_sudo}}"
 
 
 - name: start monit & mark to be started on system reboots
   service: name=monit state=started enabled=yes
+  become: "{{primary_user_sudo}}"
 
 
 - name: add monit config for elixir app
   template:
     src: app.monit.j2
     dest: "/etc/monit/conf.d/{{ app_name }}.monit"
+  become: "{{primary_user_sudo}}"
 
 
+#TODO infer deploy type from srv dir's existence
 - when: deploy_type == "restart"
   include: action-deploy-restart.yml
 
@@ -186,9 +212,14 @@
 
 - name: "reload monit"
   command: "monit reload"
+  become: "{{primary_user_sudo}}"
+
 
 - name: start nginx
   monit: name="nginx" state=started
+  become: "{{primary_user_sudo}}"
+
 
 - name: reload nginx config
   command: "nginx -s reload"
+  become: "{{primary_user_sudo}}"
