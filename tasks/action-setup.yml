@@ -61,32 +61,10 @@
   include: deploy-user.yml
 
 
-- name: "create deployer user"
-  user: name="{{deploy_as}}" shell=/bin/bash
-  become: "{{primary_user_sudo}}"
-
-
-- name: "read authorized keys from root user"
-  command: "cat ~/.ssh/authorized_keys"
-  register: "primary_user_authorized_keys"
-
-
-- name: "create .ssh dir for deploy user"
-  file: path="/home/{{ deploy_as }}/.ssh" state=directory
-  become: "{{primary_user_sudo}}"
-
-
-- name: "copy authorized keys to deployer user"
-  shell: "echo '{{primary_user_authorized_keys.stdout}}' > /home/{{deploy_as}}/.ssh/authorized_keys"
-  become: "{{primary_user_sudo}}"
-
-- name: "chown the authorized_keys file"
-  file: path="/home/{{deploy_as}}/.ssh" recurse=yes mode=0700 owner="{{ deploy_as }}"
-  become: "{{primary_user_sudo}}"
-
-
 - name: "ensure projects directory"
   file: path="~/projects" state=directory owner="{{ deploy_as }}"
+  become_user: "{{deploy_as}}"
+  become: "{{primary_user_sudo}}"
 
 
 - name: "install asdf"
