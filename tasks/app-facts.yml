@@ -1,4 +1,15 @@
 ---
+- name: get app version
+  command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]' | sed -e '$!d'" chdir="{{ project_path }}"
+  register: app_version_result
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
+
+
+- name: set app version
+  set_fact: app_version="{{ app_version_result.stdout }}"
+
+
 - name: "create or get secret_key_base"
   set_fact:
     secret_key_base: "{{ lookup('password', app_credentials_dir + '/secret-key-base' + ' chars=ascii_letters,digits,punctuation length=' + secret_key_base_length) }}"
