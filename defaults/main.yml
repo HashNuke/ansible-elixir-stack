@@ -33,7 +33,7 @@ project_path: "{{ projects_dir }}/{{ app_name }}"
 git_ref: "master"
 
 
-# Deploy type: "restart" or "upgrade"
+# Deploy type: "restart" or "upgrade" (hot-code reloading)
 deploy_type: "restart"
 
 
@@ -83,20 +83,29 @@ npm_config_install_production: False
 #######################
 
 # Should I send email alerts?
-# If false, then all following options will not be used
+# If False, then all options beyond this will not be used
+# If True, then the next section of vars need to be uncommented and set
 enable_mail_alerts: False
 
 
-# SMT defaults
+# Uncomment & set the following vars if enable_mail_alerts is True
+# smtp_host: smtp.mailgun.com
+# smtp_user: foo@example.com
+# smtp_password: F00barIsaPopularW0rd
+
+
+# SMTP defaults
 smtp_port: 587
 smtp_use_tls: False
 
 
 # Whom to mail if nginx goes down?
+# app_alert_emails: ["foo@example.com", "bar@example.com"]
 app_alert_emails: []
 
 
 # Whom to mail if the app goes down?
+# nginx_alert_emails: ["foo@example.com", "bar@example.com"]
 nginx_alert_emails: []
 
 
