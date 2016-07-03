@@ -6,15 +6,19 @@
     dest: "{{ project_path }}"
     accept_hostkey: True
     force: True
-  remote_user: "{{ deployer }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
 
 
 - name: "install tool versions"
   command: bash -lc 'asdf install' chdir="{{ project_path }}"
   async: 1800
-  remote_user: "{{ deployer }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
+
 
 - include: app-facts.yml
+
 
 - when: (grep_endpoint_module.stdout != "" and grep_repo_module.stdout != "")
   include: app-prod-secret.yml
@@ -30,22 +34,26 @@
   template:
     src: "templates/{{ app_name }}.conf.j2"
     dest: "{{ project_path }}/config/{{ app_name }}.conf"
-  remote_user: "{{ deployer }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
 
 
 - name: install hex
   command: bash -lc "mix local.hex --force" chdir="{{ project_path }}"
-  remote_user: "{{ deployer }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
 
 
 - name: install rebar
   command: bash -lc "mix local.rebar --force" chdir="{{ project_path }}"
-  remote_user: "{{ deployer }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
 
 
 - name: "fetch mix dependencies"
   command: bash -lc 'mix deps.get' chdir="{{ project_path }}"
   async: 900
-  remote_user: "{{ deployer }}"
+  become: "{{primary_user_sudo}}"
+  become_user: "{{ deploy_as }}"
   environment:
     MIX_ENV: "{{ mix_env }}"
