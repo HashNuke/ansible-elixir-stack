@@ -1,3 +1,4 @@
+---
 - name: "create deployer user"
   user: name="{{deploy_as}}" shell=/bin/bash
   become: "{{primary_user_sudo}}"
