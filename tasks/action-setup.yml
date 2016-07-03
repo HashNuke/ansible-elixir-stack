@@ -33,7 +33,7 @@
 
 # Directory to store credentials
 - name: should have credentials dir
-  file: path="{{credentials_dir}}" state=directory recurse=True
+  file: path="{{app_credentials_dir}}" state=directory recurse=True
   become: "{{primary_user_sudo}}"
 
 
