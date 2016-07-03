@@ -1,5 +1,5 @@
 ---
-- when: setup_postgres == True
+- when: postgres_install != False
   include: postgres-facts.yml
 
 
