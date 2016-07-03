@@ -1,33 +1,52 @@
 ---
 - name: "add postgres repository"
   apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+  become: "{{primary_user_sudo}}"
+  when: (postgres_install == "remote" or postgres_install == "local")
 
 
 - name: "add postgres repository key"
   apt_key: url="https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+  become: "{{primary_user_sudo}}"
+  when: (postgres_install == "remote" or postgres_install == "local")
+
+
+- name: "install libpq-dev if postgres_install is local or remote"
+  apt: name="{{ item }}" update_cache=yes state=present
+  with_items:
+    - libpq-dev
+    - libpq-dev5
+  become: "{{primary_user_sudo}}"
+  when: (postgres_install == "remote" or postgres_install == "local")
 
 
 - name: "install postgres & libpq-dev"
-  apt: name="{{ item }}" update_cache=yes state=present
+  package: name="{{ item }}" state=present
   with_items:
-    - postgresql-9.4
-    - libpq-dev
+    - postgresql
+    - postgresql-contrib
+  become: "{{primary_user_sudo}}"
+  when: postgres_install == "local"
 
 
 - name: install psycopg2 python module
   pip: name=psycopg2
+  become: "{{primary_user_sudo}}"
+  when: postgres_install == "local"
 
 
-- name: create postgres user for deployer
+- name: create postgres user for deploy user
   postgresql_user:
     name: "{{ deployer }}"
     password: "{{ database_password }}"
     role_attr_flags: CREATEDB,SUPERUSER
-  sudo: yes
-  sudo_user: postgres
+  become: "{{primary_user_sudo}}"
+  become_user: postgres
+  when: postgres_install == "local"
 
 
 - name: "create database"
   postgresql_db: name="{{ database_name }}" encoding="UTF-8"
-  sudo: yes
-  sudo_user: postgres
+  become: "{{primary_user_sudo}}"
+  become_user: postgres
+  when: postgres_install == "local"
