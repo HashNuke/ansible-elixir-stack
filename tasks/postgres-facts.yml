@@ -4,7 +4,8 @@
 
 
 - name: "create or get postgres password"
-  set_fact: database_password="{{ lookup('password', '~/credentials/' + deployer + '_postgres length=15') }}"
+  set_fact: database_password="{{ lookup('password', credentials_dir + deploy_as + '-postgres length=15') }}"
+  become: "{{primary_user_sudo}}"
 
 
 - name: "set database user"
