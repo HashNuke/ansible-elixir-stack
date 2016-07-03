@@ -4,6 +4,11 @@
 #      Server options      #
 ############################
 
+# Primary user to login to instances
+# Use "root" for DigitalOcean and "ubuntu" for AWS Ubuntu instances
+primary_user: root
+
+
 # The user to deploy projects as
 # Will create this user if it doesn't exist
 deployer: deployer
@@ -109,6 +114,14 @@ create_swap_file: True
 swap_size: 2097K
 
 
-# PRIVATE. Don't bother setting or changing
+############################################
+#               PRIVATE VARS               #
+#         Don't set or change this         #
+############################################
+
+
 smtp_tls_option: ""
 npm_install_options: ""
+
+# Will be be set to true if non-root user
+primary_user_sudo: false
