@@ -11,7 +11,7 @@ primary_user: root
 
 # The user to deploy projects as
 # Will create this user if it doesn't exist
-deployer: deployer
+deploy_as: deployer
 
 
 # Directory where all the projects will reside
