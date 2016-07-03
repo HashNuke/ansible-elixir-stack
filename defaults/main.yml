@@ -13,6 +13,9 @@ primary_user: root
 # Will create this user if it doesn't exist
 deploy_as: deployer
 
+# Create deploy user account if it doesn't exist
+# Disable if you want to use an existing deploy user with SSH keys setup
+create_deploy_user: True
 
 # Directory where all the projects will reside
 projects_dir: "/home/{{ deployer }}/projects"
@@ -48,8 +51,9 @@ secret_key_base_length: 64
 #         Database         #
 ############################
 
-# If postgres is "local", then will setup database on server
-# If postgres is "remote", then will only install postgres client libs
+# If postgres_install is "local", then will setup database on server
+# If postgres_install is "remote", then will only install postgres client libs
+# If postgres_install is False, then will not do anything about postgres
 postgres_install: "local"
 
 
@@ -119,6 +123,7 @@ swap_size: 2097K
 #         Don't set or change this         #
 ############################################
 
+credentials_dir: /etc/ansible-elixir-stack/credentials
 
 smtp_tls_option: ""
 npm_install_options: ""
