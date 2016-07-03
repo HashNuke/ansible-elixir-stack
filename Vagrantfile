@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell" do |shell|
     public_key = File.read("#{Dir.home}/.ssh/id_rsa.pub").strip
     shell.inline = <<-SHELL
-      echo #{public_key} >> /home/vagrant/.ssh/authorized_keys
+      echo #{public_key} >> /home/ubuntu/.ssh/authorized_keys
       echo #{public_key} >> /root/.ssh/authorized_keys
     SHELL
   end
