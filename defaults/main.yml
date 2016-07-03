@@ -123,7 +123,8 @@ swap_size: 2097K
 #         Don't set or change this         #
 ############################################
 
-credentials_dir: /etc/ansible-elixir-stack/credentials
+credentials_dir: "/etc/ansible-elixir-stack/credentials"
+app_credentials_dir: "{{credentials_dir}}/{{app_name}}"
 
 smtp_tls_option: ""
 npm_install_options: ""
