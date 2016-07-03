@@ -1,11 +1,8 @@
 ---
-- name: "generate secret key base"
-  command: "openssl rand -base64 {{ secret_key_base_length }}"
-  register: openssl_random_string
-
-
-- name: set secret_key_base
-  set_fact: secret_key_base="{{ openssl_random_string.stdout }}"
+- name: "create or get secret_key_base"
+  set_fact:
+    secret_key_base: "{{ lookup('password', app_credentials_dir + '/secret-key-base' + ' chars=ascii_letters,digits,punctuation length=' + secret_key_base_length) }}"
+  become: "{{primary_user_sudo}}"
 
 
 - name: detect endpoint module
