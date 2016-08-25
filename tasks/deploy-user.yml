@@ -1,6 +1,6 @@
 ---
 - name: "create deployer user"
-  user: name="{{deploy_as}}" shell=/bin/bash
+  user: name="{{deploy_user}}" shell=/bin/bash
   become: "{{primary_user_sudo}}"
 
 
@@ -10,14 +10,14 @@
 
 
 - name: "create .ssh dir for deploy user"
-  file: path="/home/{{ deploy_as }}/.ssh" state=directory
+  file: path="/home/{{ deploy_user }}/.ssh" state=directory
   become: "{{primary_user_sudo}}"
 
 
 - name: "copy authorized keys to deployer user"
-  shell: "echo '{{primary_user_authorized_keys.stdout}}' > /home/{{deploy_as}}/.ssh/authorized_keys"
+  shell: "echo '{{primary_user_authorized_keys.stdout}}' > /home/{{ deploy_user }}/.ssh/authorized_keys"
   become: "{{primary_user_sudo}}"
 
 - name: "chown the authorized_keys file"
-  file: path="/home/{{deploy_as}}/.ssh" recurse=yes mode=0700 owner="{{ deploy_as }}"
+  file: path="/home/{{deploy_user}}/.ssh" recurse=yes mode=0700 owner="{{ deploy_user }}"
   become: "{{primary_user_sudo}}"

@@ -7,14 +7,14 @@
     accept_hostkey: True
     force: True
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: "install tool versions"
   command: bash -lc 'asdf install' chdir="{{ project_path }}"
   async: 1800
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - include: app-facts.yml
@@ -35,25 +35,25 @@
     src: "templates/{{ app_name }}.conf.j2"
     dest: "{{ project_path }}/config/{{ app_name }}.conf"
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: install hex
   command: bash -lc "mix local.hex --force" chdir="{{ project_path }}"
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: install rebar
   command: bash -lc "mix local.rebar --force" chdir="{{ project_path }}"
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: "fetch mix dependencies"
   command: bash -lc 'mix deps.get' chdir="{{ project_path }}"
   async: 900
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
   environment:
     MIX_ENV: "{{ mix_env }}"

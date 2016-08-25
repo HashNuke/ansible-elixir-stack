@@ -3,7 +3,7 @@
   command: bash -lc "mix run -e 'IO.puts Mix.Project.config[:version]' | sed -e '$!d'" chdir="{{ project_path }}"
   register: app_version_result
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: set app version

@@ -62,20 +62,20 @@
 
 
 - name: "ensure projects directory"
-  file: path="~/projects" state=directory owner="{{ deploy_as }}"
-  become_user: "{{deploy_as}}"
+  file: path="~/projects" state=directory owner="{{ deploy_user }}"
+  become_user: "{{deploy_user}}"
   become: "{{primary_user_sudo}}"
 
 
 - name: "install asdf"
   git: repo="https://github.com/asdf-vm/asdf.git" dest="~/.asdf" update=yes
-  become_user: "{{deploy_as}}"
+  become_user: "{{deploy_user}}"
   become: "{{primary_user_sudo}}"
 
 
 - name: "source asdf in bashrc"
   lineinfile: dest="~/.bash_profile" create=yes line="source ~/.asdf/asdf.sh"
-  become_user: "{{deploy_as}}"
+  become_user: "{{deploy_user}}"
   become: "{{primary_user_sudo}}"
 
 
@@ -85,7 +85,7 @@
     - nodejs
     - erlang
     - elixir
-  become_user: "{{deploy_as}}"
+  become_user: "{{deploy_user}}"
   become: "{{primary_user_sudo}}"
 
 

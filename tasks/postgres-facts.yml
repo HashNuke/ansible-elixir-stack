@@ -9,4 +9,4 @@
 
 
 - name: "set database user"
-  set_fact: database_user="{{ deploy_as }}"
+  set_fact: database_user="{{ deploy_user }}"

@@ -2,7 +2,7 @@
 - name: delete release
   command: bash -lc "mix release.clean" chdir="{{ project_path }}"
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: "compile and release"
@@ -12,7 +12,7 @@
     PORT: "{{ app_port }}"
     SERVER: 1
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: stop app
@@ -31,7 +31,7 @@
     path: "{{project_path}}/.current-release"
     state: absent
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: "create fresh .current-release dir"
@@ -40,7 +40,7 @@
     state: directory
     recurse: yes
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: "set compiled release tar path"
@@ -54,7 +54,7 @@
 - name: "copy release"
   command: "cp {{compiled_release_tar_path}} {{current_release_tar_path}}"
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: "untar release"
@@ -63,9 +63,9 @@
     dest: "{{project_path}}/.current-release"
     mode: 0777
     copy: no
-    owner: "{{ deploy_as }}"
+    owner: "{{ deploy_user }}"
   become: "{{primary_user_sudo}}"
-  become_user: "{{ deploy_as }}"
+  become_user: "{{ deploy_user }}"
 
 
 - name: start app
