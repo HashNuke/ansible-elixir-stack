@@ -11,7 +11,7 @@ primary_user: root
 
 # The user to deploy projects as
 # Will create this user if it doesn't exist
-deploy_as: deployer
+deploy_user: deployer
 
 # Create deploy user account if it doesn't exist
 # Disable if you want to use an existing deploy user with SSH keys setup
