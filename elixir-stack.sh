@@ -7,9 +7,9 @@ mkdir -p playbooks/vars playbooks/templates
 cat > playbooks/setup.yml <<EOF
 ---
 - hosts: app-servers
-  remote_user: root
   vars_files:
     - vars/main.yml
+  remote_user: "{{default_user}}"
 
   roles:
     - {role: "HashNuke.elixir-stack", action: "setup"}
@@ -19,9 +19,9 @@ EOF
 cat > playbooks/deploy.yml <<EOF
 ---
 - hosts: app-servers
-  remote_user: root
   vars_files:
     - vars/main.yml
+  remote_user: "{{default_user}}"
 
   roles:
     - {role: "HashNuke.elixir-stack", action: "deploy"}
@@ -31,9 +31,9 @@ EOF
 cat > playbooks/migrate.yml <<EOF
 ---
 - hosts: app-servers
-  remote_user: root
   vars_files:
     - vars/main.yml
+  remote_user: "{{default_user}}"
 
   roles:
     - {role: "HashNuke.elixir-stack", action: "migrate"}
@@ -43,9 +43,9 @@ EOF
 cat > playbooks/remove-app.yml <<EOF
 ---
 - hosts: app-servers
-  remote_user: root
   vars_files:
     - vars/main.yml
+  remote_user: "{{default_user}}"
 
   roles:
     - {role: "HashNuke.elixir-stack", action: "remove-app"}
