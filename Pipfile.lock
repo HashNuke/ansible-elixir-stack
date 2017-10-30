@@ -1,0 +1,77 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "7bef4ed4305007d29f71fa02dc5e7b83afc8c428f200b8e0634a3d7b9fa7156e"
+        },
+        "requires": {},
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "ansible": {
+            "hash": "sha256:da61afb29cc5bd6bc4737a2da06e673fb6fccc3ae2685130d19ab3a8e404fb6a",
+            "version": "==2.4.1.0"
+        },
+        "asn1crypto": {
+            "hash": "sha256:654b7db3b120e23474e9a1e5e38d268c77e58a9e17d2cb595456c37309846494",
+            "version": "==0.23.0"
+        },
+        "bcrypt": {
+            "hash": "sha256:0872eeecdf9a429c1420158500eedb323a132bc5bf3339475151c52414729e70",
+            "version": "==3.1.4"
+        },
+        "cffi": {
+            "hash": "sha256:f6799913eb510b682de971ddef062bbb4a200f190e55cae81c413bc1fd4733c1",
+            "version": "==1.11.2"
+        },
+        "cryptography": {
+            "hash": "sha256:9261de9e2297d5faae82360795f1b4ee69f5544a49b0dbda522368f01882538b",
+            "version": "==2.1.2"
+        },
+        "idna": {
+            "hash": "sha256:8c7309c718f94b3a625cb648ace320157ad16ff131ae0af362c9f21b80ef6ec4",
+            "version": "==2.6"
+        },
+        "jinja2": {
+            "hash": "sha256:2231bace0dfd8d2bf1e5d7e41239c06c9e0ded46e70cc1094a0aa64b0afeb054",
+            "version": "==2.9.6"
+        },
+        "markupsafe": {
+            "hash": "sha256:a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665",
+            "version": "==1.0"
+        },
+        "paramiko": {
+            "hash": "sha256:f7740f3ac011da4f8030c4d882bcad6344ef7e5728cf991eef90fccef2963aab",
+            "version": "==2.3.1"
+        },
+        "pyasn1": {
+            "hash": "sha256:16e896433f84575f0636cd9aa8b24659689268a62e00f17235e1fc23c6b00b25",
+            "version": "==0.3.7"
+        },
+        "pycparser": {
+            "hash": "sha256:99a8ca03e29851d96616ad0404b4aad7d9ee16f25c9f9708a11faf2810f7b226",
+            "version": "==2.18"
+        },
+        "pynacl": {
+            "hash": "sha256:3fd984580cbea8e02fc531aa32ab9487b72c30127f9e4c8db9ba3fe8950ecc93",
+            "version": "==1.1.2"
+        },
+        "pyyaml": {
+            "hash": "sha256:592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab",
+            "version": "==3.12"
+        },
+        "setuptools": {
+            "hash": "sha256:904356c95cf90e6fdc21915afafbc9ad3d11409c7afeee7c85156f469b353efb",
+            "version": "==36.6.0"
+        },
+        "six": {
+            "hash": "sha256:832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb",
+            "version": "==1.11.0"
+        }
+    },
+    "develop": {}
+}
